@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cerniam | The Retail Intelligence Layer</title>
+  <meta name="description" content="Cerniam helps enterprise retail teams capture demand, reduce decision latency, and protect margin in real time.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-1: #0a0e27;
+      --bg-2: #1a1135;
+      --text: #ffffff;
+      --text-soft: rgba(255, 255, 255, 0.8);
+      --text-muted: rgba(255, 255, 255, 0.68);
+      --gold: #ffd700;
+      --orange: #ff8c00;
+      --cyan: #00d2ff;
+      --panel: rgba(16, 24, 58, 0.55);
+      --border: rgba(255, 255, 255, 0.14);
+      --shadow: 0 20px 50px rgba(0, 0, 0, 0.42);
+      --radius: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Inter", "Avenir Next", "Segoe UI", sans-serif;
+      color: var(--text);
+      background: linear-gradient(150deg, var(--bg-1) 0%, var(--bg-2) 45%, #0f1537 100%);
+      overflow-x: hidden;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -2;
+    }
+
+    body::before {
+      background:
+        radial-gradient(900px 600px at 10% 0%, rgba(255, 140, 0, 0.16), transparent 65%),
+        radial-gradient(1000px 700px at 90% 20%, rgba(0, 210, 255, 0.15), transparent 72%),
+        linear-gradient(150deg, var(--bg-1) 0%, var(--bg-2) 55%, #0f1537 100%);
+    }
+
+    body::after {
+      background-image:
+        radial-gradient(circle at 20% 35%, rgba(255, 255, 255, 0.1) 0.8px, transparent 1px),
+        radial-gradient(circle at 70% 60%, rgba(0, 210, 255, 0.15) 0.8px, transparent 1px),
+        linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+      background-size: 220px 220px, 320px 320px, 54px 54px, 54px 54px;
+      opacity: 0.38;
+      animation: driftGrid 36s linear infinite;
+    }
+
+    @keyframes driftGrid {
+      0% {
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+      50% {
+        transform: translate3d(-24px, -34px, 0) scale(1.02);
+      }
+      100% {
+        transform: translate3d(-48px, -68px, 0) scale(1);
+      }
+    }
+
+    .container {
+      width: min(1140px, 92vw);
+      margin: 0 auto;
+    }
+
+    section {
+      padding: clamp(4.5rem, 8vw, 7.5rem) 0;
+      position: relative;
+    }
+
+    .glass {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: var(--shadow);
+    }
+
+    .section-label {
+      display: inline-block;
+      margin-bottom: 1rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--cyan);
+    }
+
+    h1,
+    h2,
+    h3 {
+      text-wrap: balance;
+    }
+
+    h2 {
+      font-size: clamp(1.85rem, 4.6vw, 3.2rem);
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      color: var(--text-soft);
+      line-height: 1.74;
+      font-size: clamp(0.98rem, 1.22vw, 1.1rem);
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-bottom: clamp(2rem, 6vw, 4.5rem);
+    }
+
+    .logo-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--orange));
+      box-shadow: 0 0 18px rgba(255, 180, 0, 0.85);
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-video {
+      position: absolute;
+      top: 50%; left: 50%;
+      min-width: 100%; min-height: 100%;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+      opacity: 0.2;
+      z-index: 0;
+    }
+    .hero .container { position: relative; z-index: 1; }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 0.86fr;
+      gap: clamp(1.2rem, 4vw, 4rem);
+      align-items: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 7vw, 5.8rem);
+      line-height: 0.98;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 1.2rem;
+    }
+
+    .hero-subhead {
+      max-width: 36rem;
+      margin-bottom: 2rem;
+      color: var(--text-muted);
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.95rem 1.35rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 215, 0, 0.5);
+      background: linear-gradient(140deg, rgba(255, 215, 0, 0.2), rgba(255, 140, 0, 0.26));
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      box-shadow: 0 0 30px rgba(255, 165, 0, 0.35);
+    }
+
+    .cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 34px rgba(255, 180, 0, 0.55);
+    }
+
+    .hero-panel {
+      padding: clamp(1.5rem, 2.2vw, 2rem);
+      min-height: 320px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      align-content: center;
+    }
+
+    .hero-chip {
+      padding: 1rem;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .hero-chip strong {
+      display: block;
+      font-size: 1.55rem;
+      line-height: 1;
+      margin-bottom: 0.45rem;
+      color: var(--gold);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .hero-chip:nth-child(2) strong,
+    .hero-chip:nth-child(4) strong {
+      color: var(--cyan);
+    }
+
+    .hero-chip span {
+      display: block;
+      color: var(--text-muted);
+      font-size: 0.86rem;
+      line-height: 1.45;
+    }
+
+    .problem-grid,
+    .solution-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .stat-card,
+    .solution-card {
+      padding: 1.3rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .stat-card::before,
+    .solution-card::before {
+      content: "";
+      position: absolute;
+      top: -38%;
+      right: -38%;
+      width: 190px;
+      height: 190px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0, 210, 255, 0.16) 0%, transparent 70%);
+    }
+
+    .stat-card:hover,
+    .solution-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 215, 0, 0.35);
+      box-shadow: 0 0 30px rgba(255, 175, 0, 0.2);
+    }
+
+    .kpi {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 1;
+      margin-bottom: 0.7rem;
+      letter-spacing: -0.02em;
+      color: var(--gold);
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .kpi-description {
+      color: var(--text-soft);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .problem-copy {
+      max-width: 70ch;
+      color: var(--text-muted);
+    }
+
+    .icon {
+      width: 38px;
+      height: 38px;
+      margin-bottom: 0.9rem;
+      color: var(--cyan);
+    }
+
+    .solution-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.7rem;
+      letter-spacing: -0.01em;
+    }
+
+    .solution-card p {
+      font-size: 0.98rem;
+      color: var(--text-soft);
+      margin-bottom: 1rem;
+    }
+
+    .kpi-callout {
+      display: inline-block;
+      padding: 0.55rem 0.75rem;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 215, 0, 0.36);
+      background: rgba(255, 215, 0, 0.09);
+      color: rgba(255, 234, 150, 0.96);
+      font-size: 0.83rem;
+      line-height: 1.45;
+    }
+
+    .flow-wrap {
+      margin-top: 2rem;
+      padding: clamp(1rem, 2.2vw, 1.5rem);
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 0.55rem;
+      align-items: stretch;
+    }
+
+    .stage {
+      position: relative;
+      min-height: 170px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.04);
+      padding: 0.9rem;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .stage.active {
+      border-color: rgba(255, 215, 0, 0.55);
+      box-shadow: 0 0 24px rgba(255, 178, 0, 0.35);
+      transform: translateY(-3px);
+    }
+
+    .stage strong {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(0, 210, 255, 0.16);
+      border: 1px solid rgba(0, 210, 255, 0.45);
+      margin-bottom: 0.7rem;
+      font-size: 0.84rem;
+      color: var(--cyan);
+    }
+
+    .stage h4 {
+      font-size: 0.92rem;
+      margin-bottom: 0.35rem;
+      letter-spacing: 0.01em;
+      line-height: 1.45;
+    }
+
+    .stage p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .engine-copy {
+      margin-top: 1.25rem;
+      color: var(--text-muted);
+      max-width: 72ch;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 1rem;
+      margin-top: 1.8rem;
+    }
+
+    .about-panel,
+    .contact-panel {
+      padding: clamp(1.2rem, 2.4vw, 1.7rem);
+    }
+
+    .contact-panel h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.8rem;
+    }
+
+    form {
+      display: grid;
+      gap: 0.72rem;
+    }
+
+    label {
+      font-size: 0.79rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.17);
+      background: rgba(10, 14, 39, 0.7);
+      color: var(--text);
+      padding: 0.74rem 0.85rem;
+      font: inherit;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: rgba(0, 210, 255, 0.7);
+      box-shadow: 0 0 0 3px rgba(0, 210, 255, 0.14);
+    }
+
+    .submit {
+      margin-top: 0.4rem;
+      justify-self: start;
+      cursor: pointer;
+    }
+
+    footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.14);
+      padding: 2rem 0 2.6rem;
+      color: var(--text-muted);
+      font-size: 0.84rem;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateX(28px);
+      transition: opacity 0.75s ease, transform 0.75s ease;
+      transition-delay: var(--delay, 0ms);
+    }
+
+    .reveal.in-view {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    @media (max-width: 1040px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: auto;
+        padding-top: 6.5rem;
+      }
+
+      .hero-panel {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .problem-grid,
+      .solution-grid,
+      .flow,
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .flow {
+        gap: 0.7rem;
+      }
+
+      .stage {
+        min-height: auto;
+      }
+    }
+
+    @media (max-width: 640px) {
+      section {
+        padding: 4rem 0;
+      }
+
+      .hero h1 {
+        letter-spacing: 0.04em;
+      }
+
+      .hero-panel {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="hero">
+      <video class="hero-video" autoplay muted loop playsinline>
+        <source src="cerniam-hero.mp4" type="video/mp4">
+      </video>
+      <div class="container hero-grid">
+        <div>
+          <div class="logo">
+            <span class="logo-dot"></span>
+            <span>Cerniam</span>
+          </div>
+          <h1>The Retail Intelligence Layer</h1>
+          <p class="hero-subhead">Real-time demand signals. Cross-domain orchestration. Autonomous margin optimization.</p>
+          <a href="#how-it-works" class="cta">See How It Works</a>
+        </div>
+        <aside class="hero-panel glass reveal" style="--delay: 100ms">
+          <article class="hero-chip">
+            <strong>90%</strong>
+            <span>orders impacted by customer drop-off before purchase</span>
+          </article>
+          <article class="hero-chip">
+            <strong>$818B</strong>
+            <span>lost every year to inventory distortion worldwide</span>
+          </article>
+          <article class="hero-chip">
+            <strong>73%</strong>
+            <span>retail teams blocked by disconnected systems</span>
+          </article>
+          <article class="hero-chip">
+            <strong>1</strong>
+            <span>intelligence layer connecting action to outcome</span>
+          </article>
+        </aside>
+      </div>
+    </section>
+
+    <section id="problem">
+      <div class="container">
+        <span class="section-label">THE CHALLENGE</span>
+        <h2>Retail Runs on Blind Spots</h2>
+        <div class="problem-grid">
+          <article class="stat-card glass reveal" style="--delay: 0ms">
+            <h3 class="kpi"><span class="tick" data-target="90" data-prefix="" data-suffix="%">0</span></h3>
+            <p class="kpi-description">of online shoppers abandon orders before purchase</p>
+          </article>
+          <article class="stat-card glass reveal" style="--delay: 170ms">
+            <h3 class="kpi"><span class="tick" data-target="818" data-prefix="$" data-suffix="B">0</span></h3>
+            <p class="kpi-description">lost annually to inventory distortion worldwide</p>
+          </article>
+          <article class="stat-card glass reveal" style="--delay: 340ms">
+            <h3 class="kpi"><span class="tick" data-target="73" data-prefix="" data-suffix="%">0</span></h3>
+            <p class="kpi-description">of retailers say siloed systems block real-time decisions</p>
+          </article>
+        </div>
+        <p class="problem-copy">Today's retail stack is fragmented. Inventory, fulfillment, loyalty, and demand forecasting operate in separate systems - separate blades that don't talk to each other. By the time a pricing error is caught, a stockout is flagged, or a return is processed, the margin opportunity has already passed. The data exists. The coordination doesn't.</p>
+      </div>
+    </section>
+
+    <section id="solution">
+      <div class="container">
+        <span class="section-label">WHAT CERNIAM DOES</span>
+        <h2>Intelligence That Moves at the Speed of Commerce</h2>
+        <div class="solution-grid">
+          <article class="solution-card glass reveal" style="--delay: 0ms">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M2 12C4.2 12 4.2 7 6.4 7S8.6 15 10.8 15 13 5 15.2 5 17.4 19 19.6 19 21.8 12 22 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+            </svg>
+            <h3>See Demand Before It Happens</h3>
+            <p>Cerniam captures real-time consumer signals - browsing patterns, cart behavior, purchase velocity - and translates them into demand forecasts that update continuously. Not weekly reports. Not batch processing. Live signal.</p>
+            <span class="kpi-callout">Incremental demand capture: $20M+ annually per enterprise deployment (placeholder)</span>
+          </article>
+
+          <article class="solution-card glass reveal" style="--delay: 200ms">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4 7.5A2.5 2.5 0 1 1 4 12.5 2.5 2.5 0 0 1 4 7.5ZM20 3.5A2.5 2.5 0 1 1 20 8.5 2.5 2.5 0 0 1 20 3.5ZM19 15.5A2.5 2.5 0 1 1 19 20.5 2.5 2.5 0 0 1 19 15.5ZM6.3 9.2l11-3M6.2 10.8l10.8 7.3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+            </svg>
+            <h3>One Brain Across Every System</h3>
+            <p>Inventory, fulfillment, pricing, and loyalty operate as one unified context - not four disconnected dashboards. When demand shifts in one domain, every connected system adapts in real time. No more siloed decisions.</p>
+            <span class="kpi-callout">Decision latency reduction: minutes to seconds (placeholder)</span>
+          </article>
+
+          <article class="solution-card glass reveal" style="--delay: 400ms">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4 16l5-5 3.2 3.2L20 6.5M20 6.5V11M20 6.5h-4.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <h3>Agents That Protect Your Margin</h3>
+            <p>Cerniam's optimization framework continuously evaluates margin opportunities across domains. When the math justifies action - repricing, rerouting, restocking - it executes autonomously. Human oversight where it matters. Speed everywhere else.</p>
+            <span class="kpi-callout">Projected margin lift: 150-350 basis points (placeholder)</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="how-it-works">
+      <div class="container">
+        <span class="section-label">THE ENGINE</span>
+        <h2>From Signal to Action in Real Time</h2>
+        <div class="flow-wrap glass reveal" style="--delay: 80ms">
+          <div class="flow" id="flow">
+            <article class="stage active">
+              <strong>1</strong>
+              <h4>Consumer Signal</h4>
+              <p>Browsing, cart, purchase, and return behavior captured across every channel</p>
+            </article>
+            <article class="stage">
+              <strong>2</strong>
+              <h4>Operational Context</h4>
+              <p>Signals unified with inventory, pricing, fulfillment, and loyalty data into a live operational model</p>
+            </article>
+            <article class="stage">
+              <strong>3</strong>
+              <h4>Evaluation</h4>
+              <p>The system assesses: is there a margin opportunity? What is the ROI of acting vs. not acting?</p>
+            </article>
+            <article class="stage">
+              <strong>4</strong>
+              <h4>Autonomous Action</h4>
+              <p>When the math clears: reprice, restock, reroute, intervene - automatically</p>
+            </article>
+            <article class="stage">
+              <strong>5</strong>
+              <h4>Revenue Impact</h4>
+              <p>Measurable lift in revenue, margin, and customer retention</p>
+            </article>
+          </div>
+        </div>
+        <p class="engine-copy">Cerniam doesn't replace your existing systems. It sits on top of them - weaving inventory, fulfillment, pricing, and loyalty into a single operational context. The framework reads that context continuously, detects margin opportunities, and acts when the value justifies intervention. Your technology stack stays. Your blind spots don't.</p>
+      </div>
+    </section>
+
+    <section id="about-contact">
+      <div class="container">
+        <span class="section-label">WHO WE ARE</span>
+        <h2>Built by Operators, Not Theorists</h2>
+        <div class="about-grid">
+          <article class="about-panel glass reveal" style="--delay: 0ms">
+            <p>Cerniam was founded by operators who have built and scaled the systems that power modern retail - from fulfillment infrastructure serving hundreds of billions in revenue to omnichannel platforms connecting thousands of stores to digital commerce. We are not pitching a vision. We are building the intelligence layer that retail has needed since systems went digital and decisions stayed manual.</p>
+          </article>
+          <article class="contact-panel glass reveal" style="--delay: 170ms">
+            <h3>Let's talk.</h3>
+            <form>
+              <label for="name">Name</label>
+              <input id="name" name="name" type="text" autocomplete="name" required>
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" autocomplete="email" required>
+              <label for="company">Company</label>
+              <input id="company" name="company" type="text" autocomplete="organization" required>
+              <label for="message">Message</label>
+              <textarea id="message" name="message" required></textarea>
+              <button type="submit" class="cta submit">Send</button>
+            </form>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">2026 Cerniam. All rights reserved.</div>
+  </footer>
+
+  <script>
+    (function () {
+      const reveals = document.querySelectorAll(".reveal");
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("in-view");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.2, rootMargin: "0px 0px -10% 0px" }
+      );
+      reveals.forEach((item) => observer.observe(item));
+
+      const ticks = document.querySelectorAll(".tick");
+      const problemSection = document.getElementById("problem");
+      let hasTicked = false;
+
+      function animateCount(el) {
+        const end = Number(el.dataset.target || 0);
+        const prefix = el.dataset.prefix || "";
+        const suffix = el.dataset.suffix || "";
+        const duration = 1400;
+        const startTime = performance.now();
+
+        function step(now) {
+          const progress = Math.min((now - startTime) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const value = Math.floor(end * eased);
+          el.textContent = prefix + value + suffix;
+          if (progress < 1) {
+            requestAnimationFrame(step);
+          } else {
+            el.textContent = prefix + end + suffix;
+          }
+        }
+
+        requestAnimationFrame(step);
+      }
+
+      const kpiObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting && !hasTicked) {
+              hasTicked = true;
+              ticks.forEach((tick) => animateCount(tick));
+              kpiObserver.disconnect();
+            }
+          });
+        },
+        { threshold: 0.45 }
+      );
+
+      if (problemSection) {
+        kpiObserver.observe(problemSection);
+      }
+
+      const stages = Array.from(document.querySelectorAll("#flow .stage"));
+      let index = 0;
+      setInterval(() => {
+        stages.forEach((stage, i) => {
+          stage.classList.toggle("active", i === index);
+        });
+        index = (index + 1) % stages.length;
+      }, 1500);
+
+      const form = document.querySelector("form");
+      if (form) {
+        form.addEventListener("submit", function (event) {
+          event.preventDefault();
+          form.reset();
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
