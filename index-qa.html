@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cerniam — Retail Intelligence, Reimagined</title>
+<meta name="description" content="Cerniam is the operating system for modern retail. Demand sensing, inventory optimization, and unified analytics in one platform.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg-navy:#0a0e1a;
+--bg-indigo:#141832;
+--accent-gold:#d4a853;
+--accent-gold-bright:#e8b94a;
+--accent-cyan:#3ecfcf;
+--accent-cyan-bright:#4dd8d8;
+--text-white:#ffffff;
+--text-gray:#b0b8d0;
+--card-bg:rgba(255,255,255,0.04);
+--card-border:rgba(255,255,255,0.08);
+--font-main:'Inter',system-ui,-apple-system,sans-serif;
+}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{
+font-family:var(--font-main);
+background:var(--bg-navy);
+color:var(--text-white);
+line-height:1.6;
+overflow-x:hidden;
+-webkit-font-smoothing:antialiased;
+-moz-osx-font-smoothing:grayscale;
+}
+h1,h2,h3,h4,h5,h6{letter-spacing:-0.02em;line-height:1.2}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+button,input,textarea{font-family:var(--font-main)}
+
+/* ── NAV ── */
+.nav{
+position:fixed;top:0;left:0;right:0;z-index:1000;
+background:rgba(10,14,26,0.85);
+backdrop-filter:blur(20px);
+-webkit-backdrop-filter:blur(20px);
+border-bottom:1px solid var(--card-border);
+transition:background 0.3s ease;
+}
+.nav-inner{
+max-width:1280px;margin:0 auto;
+display:flex;align-items:center;justify-content:space-between;
+padding:0 2rem;height:72px;
+}
+.nav-logo{
+font-size:1.5rem;font-weight:700;
+letter-spacing:-0.02em;
+background:linear-gradient(135deg,var(--accent-gold),var(--accent-gold-bright));
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+background-clip:text;
+}
+.nav-links{display:flex;align-items:center;gap:2rem;list-style:none}
+.nav-links a{
+font-size:0.875rem;font-weight:500;
+color:var(--text-gray);
+transition:color 0.2s ease;
+padding:0.5rem 0;
+}
+.nav-links a:hover{color:var(--text-white)}
+.nav-cta{
+display:inline-flex;align-items:center;justify-content:center;
+padding:0.625rem 1.5rem;
+background:linear-gradient(135deg,var(--accent-gold),var(--accent-gold-bright));
+color:var(--bg-navy);
+font-size:0.875rem;font-weight:600;
+border:none;border-radius:8px;cursor:pointer;
+transition:transform 0.2s ease,opacity 0.2s ease;
+min-height:44px;
+}
+.nav-cta:hover{transform:translateY(-1px);opacity:0.9}
+.nav-toggle{
+display:none;background:none;border:none;cursor:pointer;
+width:44px;height:44px;
+flex-direction:column;align-items:center;justify-content:center;gap:5px;
+}
+.nav-toggle span{
+display:block;width:22px;height:2px;
+background:var(--text-white);
+transition:transform 0.3s ease,opacity 0.3s ease;
+}
+.nav-toggle.active span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-toggle.active span:nth-child(2){opacity:0}
+.nav-toggle.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* ── HERO ── */
+.hero{
+min-height:100vh;
+display:grid;
+grid-template-columns:1fr 1fr;
+align-items:center;
+padding:6rem 2rem 4rem;
+max-width:1280px;margin:0 auto;
+position:relative;
+}
+.hero-bg{
+position:fixed;top:0;left:0;right:0;bottom:0;z-index:-1;
+background:linear-gradient(145deg,var(--bg-navy) 0%,var(--bg-indigo) 50%,var(--bg-navy) 100%);
+overflow:hidden;
+}
+.hero-bg::before{
+content:'';position:absolute;
+width:600px;height:600px;
+top:-10%;right:-5%;
+background:radial-gradient(circle,rgba(212,168,83,0.08) 0%,transparent 70%);
+animation:heroGlow 12s ease-in-out infinite alternate;
+}
+.hero-bg::after{
+content:'';position:absolute;
+width:500px;height:500px;
+bottom:-10%;left:-5%;
+background:radial-gradient(circle,rgba(62,207,207,0.06) 0%,transparent 70%);
+animation:heroGlow 10s ease-in-out infinite alternate-reverse;
+}
+@keyframes heroGlow{
+0%{transform:translate(0,0) scale(1)}
+100%{transform:translate(30px,20px) scale(1.15)}
+}
+.hero-content{padding-right:3rem}
+.hero-badge{
+display:inline-flex;align-items:center;gap:0.5rem;
+padding:0.375rem 1rem;
+background:var(--card-bg);
+border:1px solid var(--card-border);
+border-radius:100px;
+font-size:0.75rem;font-weight:500;
+color:var(--accent-cyan);
+margin-bottom:1.5rem;
+letter-spacing:0.04em;
+text-transform:uppercase;
+}
+.hero-badge::before{
+content:'';width:6px;height:6px;
+background:var(--accent-cyan);
+border-radius:50%;
+animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{
+0%,100%{opacity:1}
+50%{opacity:0.4}
+}
+.hero h1{
+font-size:clamp(2.25rem,5vw,3.75rem);
+font-weight:700;
+margin-bottom:1.5rem;
+}
+.hero h1 .accent{
+background:linear-gradient(135deg,var(--accent-gold),var(--accent-gold-bright));
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+background-clip:text;
+}
+.hero-sub{
+font-size:clamp(1rem,1.5vw,1.25rem);
+color:var(--text-gray);
+margin-bottom:2.5rem;
+max-width:480px;
+font-weight:300;
+line-height:1.7;
+}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-primary{
+display:inline-flex;align-items:center;justify-content:center;
+padding:0.875rem 2rem;
+background:linear-gradient(135deg,var(--accent-gold),var(--accent-gold-bright));
+color:var(--bg-navy);
+font-size:1rem;font-weight:600;
+border:none;border-radius:10px;cursor:pointer;
+transition:transform 0.2s ease,opacity 0.2s ease;
+min-height:48px;
+}
+.btn-primary:hover{transform:translateY(-2px);opacity:0.9}
+.btn-secondary{
+display:inline-flex;align-items:center;justify-content:center;
+padding:0.875rem 2rem;
+background:transparent;
+color:var(--text-white);
+font-size:1rem;font-weight:500;
+border:1px solid var(--card-border);
+border-radius:10px;cursor:pointer;
+transition:transform 0.2s ease,border-color 0.2s ease;
+min-height:48px;
+}
+.btn-secondary:hover{transform:translateY(-2px);border-color:rgba(255,255,255,0.2)}
+
+/* ── HERO GLASS PANEL ── */
+.hero-panel{
+background:rgba(255,255,255,0.03);
+backdrop-filter:blur(24px);
+-webkit-backdrop-filter:blur(24px);
+border:1px solid var(--card-border);
+border-radius:20px;
+padding:2.5rem;
+position:relative;
+overflow:hidden;
+}
+.hero-panel::before{
+content:'';position:absolute;top:0;left:0;right:0;
+height:1px;
+background:linear-gradient(90deg,transparent,rgba(255,255,255,0.12),transparent);
+}
+.hero-panel-label{
+font-size:0.75rem;font-weight:600;
+text-transform:uppercase;letter-spacing:0.08em;
+color:var(--accent-gold);
+margin-bottom:1.5rem;
+}
+.hero-metric{margin-bottom:2rem}
+.hero-metric:last-child{margin-bottom:0}
+.hero-metric-value{
+font-size:1.75rem;font-weight:700;
+margin-bottom:0.25rem;
+}
+.hero-metric-value .cyan{color:var(--accent-cyan)}
+.hero-metric-label{
+font-size:0.875rem;color:var(--text-gray);font-weight:400;
+}
+.hero-metric-bar{
+width:100%;height:4px;
+background:rgba(255,255,255,0.06);
+border-radius:2px;
+margin-top:0.75rem;
+overflow:hidden;
+}
+.hero-metric-fill{
+height:100%;width:100%;border-radius:2px;
+transform-origin:left;
+transition:transform 1.5s ease-out;
+transform:scaleX(0);
+}
+.hero-metric-fill.gold{background:linear-gradient(90deg,var(--accent-gold),var(--accent-gold-bright))}
+.hero-metric-fill.cyan{background:linear-gradient(90deg,var(--accent-cyan),var(--accent-cyan-bright))}
+
+/* ── SECTIONS ── */
+.section{
+padding:6rem 2rem;
+max-width:1280px;
+margin:0 auto;
+position:relative;
+}
+.section-label{
+font-size:0.75rem;font-weight:600;
+text-transform:uppercase;letter-spacing:0.1em;
+color:var(--accent-gold);
+margin-bottom:0.75rem;
+}
+.section-title{
+font-size:clamp(1.75rem,3.5vw,2.75rem);
+font-weight:700;
+margin-bottom:1rem;
+}
+.section-desc{
+font-size:1.0625rem;
+color:var(--text-gray);
+max-width:560px;
+font-weight:300;
+line-height:1.7;
+margin-bottom:3.5rem;
+}
+
+/* ── PROBLEM SECTION ── */
+.stats-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:1.5rem;
+}
+.stat-card{
+background:var(--card-bg);
+border:1px solid var(--card-border);
+border-radius:16px;
+padding:2.5rem 2rem;
+text-align:center;
+transition:transform 0.3s ease,border-color 0.3s ease;
+}
+.stat-card:hover{
+transform:translateY(-4px);
+border-color:rgba(255,255,255,0.14);
+}
+.stat-icon{
+width:48px;height:48px;
+margin:0 auto 1.5rem;
+border-radius:12px;
+display:flex;align-items:center;justify-content:center;
+font-size:1.25rem;
+}
+.stat-icon.red{background:rgba(232,94,94,0.12);color:#e85e5e}
+.stat-icon.orange{background:rgba(232,185,74,0.12);color:var(--accent-gold-bright)}
+.stat-icon.cyan{background:rgba(62,207,207,0.12);color:var(--accent-cyan)}
+.stat-value{
+font-size:clamp(2rem,4vw,3rem);
+font-weight:700;
+margin-bottom:0.5rem;
+}
+.stat-label{
+font-size:0.9375rem;
+color:var(--text-gray);
+font-weight:400;
+line-height:1.5;
+}
+
+/* ── SOLUTION SECTION ── */
+.features-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:1.5rem;
+}
+.feature-card{
+background:var(--card-bg);
+border:1px solid var(--card-border);
+border-radius:16px;
+padding:2.5rem 2rem;
+transition:transform 0.3s ease,border-color 0.3s ease,box-shadow 0.3s ease;
+position:relative;
+overflow:hidden;
+}
+.feature-card:hover{
+transform:translateY(-4px);
+border-color:rgba(212,168,83,0.25);
+box-shadow:0 8px 40px rgba(212,168,83,0.08);
+}
+.feature-card::after{
+content:'';position:absolute;top:0;left:0;right:0;
+height:1px;
+background:linear-gradient(90deg,transparent,rgba(212,168,83,0.3),transparent);
+opacity:0;
+transition:opacity 0.3s ease;
+}
+.feature-card:hover::after{opacity:1}
+.feature-icon{
+width:52px;height:52px;
+border-radius:14px;
+display:flex;align-items:center;justify-content:center;
+margin-bottom:1.5rem;
+font-size:1.5rem;
+}
+.feature-icon.gold{background:rgba(212,168,83,0.12)}
+.feature-icon.cyan{background:rgba(62,207,207,0.12)}
+.feature-card h3{
+font-size:1.25rem;font-weight:600;
+margin-bottom:0.75rem;
+}
+.feature-card p{
+font-size:0.9375rem;
+color:var(--text-gray);
+font-weight:400;
+line-height:1.7;
+}
+
+/* ── HOW IT WORKS ── */
+.flow{
+display:flex;
+align-items:flex-start;
+gap:0;
+position:relative;
+margin-top:1rem;
+}
+.flow-stage{
+flex:1;
+text-align:center;
+padding:2rem 1.25rem;
+position:relative;
+border-radius:14px;
+transition:background 0.4s ease;
+}
+.flow-stage.active{
+background:var(--card-bg);
+}
+.flow-connector{
+position:absolute;
+top:2.75rem;
+left:-1rem;
+width:2rem;
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:2;
+}
+.flow-connector svg{
+width:20px;height:20px;
+color:rgba(255,255,255,0.15);
+transition:color 0.4s ease;
+}
+.flow-stage.active + .flow-stage .flow-connector svg,
+.flow-stage.active .flow-connector svg{
+color:var(--accent-gold);
+}
+.flow-num{
+width:44px;height:44px;
+border-radius:12px;
+display:flex;align-items:center;justify-content:center;
+margin:0 auto 1rem;
+font-size:0.875rem;font-weight:700;
+background:rgba(255,255,255,0.04);
+border:1px solid var(--card-border);
+color:var(--text-gray);
+transition:background 0.4s ease,color 0.4s ease,border-color 0.4s ease;
+}
+.flow-stage.active .flow-num{
+background:linear-gradient(135deg,var(--accent-gold),var(--accent-gold-bright));
+color:var(--bg-navy);
+border-color:transparent;
+}
+.flow-stage h4{
+font-size:1rem;font-weight:600;
+margin-bottom:0.5rem;
+transition:color 0.4s ease;
+}
+.flow-stage.active h4{color:var(--accent-gold)}
+.flow-stage p{
+font-size:0.8125rem;
+color:var(--text-gray);
+font-weight:400;
+line-height:1.6;
+}
+
+/* ── ABOUT ── */
+.about-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:4rem;
+align-items:start;
+}
+.about-text h3{
+font-size:1.5rem;font-weight:600;
+margin-bottom:1.25rem;
+}
+.about-text p{
+font-size:1rem;
+color:var(--text-gray);
+font-weight:300;
+line-height:1.8;
+margin-bottom:1.25rem;
+}
+.about-metrics{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:1.25rem;
+}
+.about-metric-card{
+background:var(--card-bg);
+border:1px solid var(--card-border);
+border-radius:14px;
+padding:1.75rem;
+}
+.about-metric-card .val{
+font-size:1.75rem;font-weight:700;
+margin-bottom:0.25rem;
+}
+.about-metric-card .val.gold{color:var(--accent-gold)}
+.about-metric-card .val.cyan{color:var(--accent-cyan)}
+.about-metric-card .lbl{
+font-size:0.8125rem;
+color:var(--text-gray);
+font-weight:400;
+}
+
+/* ── CONTACT ── */
+.contact-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:4rem;
+align-items:start;
+}
+.contact-info h3{
+font-size:1.5rem;font-weight:600;
+margin-bottom:1.25rem;
+}
+.contact-info p{
+font-size:1rem;
+color:var(--text-gray);
+font-weight:300;
+line-height:1.8;
+margin-bottom:1.5rem;
+}
+.contact-detail{
+display:flex;align-items:center;gap:0.75rem;
+margin-bottom:1rem;
+font-size:0.9375rem;
+color:var(--text-gray);
+}
+.contact-detail-icon{
+width:40px;height:40px;
+border-radius:10px;
+background:var(--card-bg);
+border:1px solid var(--card-border);
+display:flex;align-items:center;justify-content:center;
+font-size:0.875rem;flex-shrink:0;
+}
+.contact-form{
+background:var(--card-bg);
+border:1px solid var(--card-border);
+border-radius:20px;
+padding:2.5rem;
+}
+.form-group{margin-bottom:1.25rem}
+.form-group label{
+display:block;
+font-size:0.8125rem;font-weight:500;
+margin-bottom:0.5rem;
+color:var(--text-gray);
+}
+.form-group input,.form-group textarea{
+width:100%;
+padding:0.875rem 1rem;
+background:rgba(255,255,255,0.03);
+border:1px solid var(--card-border);
+border-radius:10px;
+color:var(--text-white);
+font-size:0.9375rem;
+transition:border-color 0.2s ease;
+outline:none;
+min-height:48px;
+}
+.form-group textarea{
+min-height:120px;resize:vertical;
+line-height:1.6;
+}
+.form-group input:focus,.form-group textarea:focus{
+border-color:var(--accent-gold);
+}
+.form-group input.error,.form-group textarea.error{
+border-color:#e85e5e;
+}
+.form-error{
+font-size:0.75rem;
+color:#e85e5e;
+margin-top:0.375rem;
+display:none;
+}
+.form-error.visible{display:block}
+.form-submit{
+width:100%;
+padding:0.875rem 2rem;
+background:linear-gradient(135deg,var(--accent-gold),var(--accent-gold-bright));
+color:var(--bg-navy);
+font-size:1rem;font-weight:600;
+border:none;border-radius:10px;cursor:pointer;
+transition:transform 0.2s ease,opacity 0.2s ease;
+min-height:48px;
+}
+.form-submit:hover{transform:translateY(-2px);opacity:0.9}
+.form-success{
+display:none;
+text-align:center;
+padding:3rem 2rem;
+}
+.form-success.visible{display:block}
+.form-success h4{
+font-size:1.25rem;font-weight:600;
+margin-bottom:0.5rem;
+color:var(--accent-cyan);
+}
+.form-success p{
+font-size:0.9375rem;
+color:var(--text-gray);
+}
+.form-fields.hidden{display:none}
+
+/* ── FOOTER ── */
+.footer{
+border-top:1px solid var(--card-border);
+padding:3rem 2rem;
+margin-top:2rem;
+}
+.footer-inner{
+max-width:1280px;margin:0 auto;
+display:flex;align-items:center;justify-content:space-between;
+flex-wrap:wrap;gap:1.5rem;
+}
+.footer-brand{
+font-size:1.25rem;font-weight:700;
+background:linear-gradient(135deg,var(--accent-gold),var(--accent-gold-bright));
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+background-clip:text;
+}
+.footer-copy{
+font-size:0.8125rem;
+color:var(--text-gray);
+}
+.footer-links{
+display:flex;gap:1.5rem;list-style:none;
+}
+.footer-links a{
+font-size:0.8125rem;
+color:var(--text-gray);
+transition:color 0.2s ease;
+padding:0.25rem 0;
+}
+.footer-links a:hover{color:var(--text-white)}
+
+/* ── SCROLL REVEAL ── */
+.reveal{
+opacity:0;
+transform:translateY(24px);
+transition:opacity 0.7s ease,transform 0.7s ease;
+}
+.reveal.visible{
+opacity:1;
+transform:translateY(0);
+}
+.reveal-delay-1{transition-delay:0.1s}
+.reveal-delay-2{transition-delay:0.2s}
+.reveal-delay-3{transition-delay:0.3s}
+.reveal-delay-4{transition-delay:0.4s}
+.reveal-delay-5{transition-delay:0.5s}
+
+/* ── RESPONSIVE 1040px ── */
+@media(max-width:1040px){
+.nav-links{
+position:fixed;top:72px;left:0;right:0;
+background:rgba(10,14,26,0.96);
+backdrop-filter:blur(20px);
+-webkit-backdrop-filter:blur(20px);
+flex-direction:column;
+padding:2rem;gap:0;
+transform:translateY(-120%);
+transition:transform 0.3s ease;
+border-bottom:1px solid var(--card-border);
+}
+.nav-links.open{transform:translateY(0)}
+.nav-links li{width:100%}
+.nav-links a{
+display:flex;align-items:center;
+padding:0.875rem 0;
+font-size:1rem;
+min-height:44px;
+}
+.nav-toggle{display:flex}
+.hero{grid-template-columns:1fr;gap:3rem;min-height:auto;padding-top:8rem}
+.hero-content{padding-right:0}
+.hero-panel{max-width:520px}
+.stats-grid{grid-template-columns:1fr;max-width:480px;margin:0 auto}
+.features-grid{grid-template-columns:1fr;max-width:480px;margin:0 auto}
+.flow{
+flex-direction:column;
+gap:0;
+max-width:400px;
+margin:1rem auto 0;
+}
+.flow-connector{
+position:relative;
+top:auto;left:auto;
+transform:rotate(90deg);
+margin:0 auto;
+}
+.about-grid{grid-template-columns:1fr;gap:3rem}
+.contact-grid{grid-template-columns:1fr;gap:3rem}
+}
+
+/* ── RESPONSIVE 640px ── */
+@media(max-width:640px){
+.section{padding:4rem 1.25rem}
+.hero{padding:6rem 1.25rem 3rem}
+.hero h1{font-size:2rem}
+.hero-actions{flex-direction:column}
+.hero-actions a,.hero-actions button{width:100%;text-align:center}
+.about-metrics{grid-template-columns:1fr 1fr}
+.stat-card{padding:2rem 1.5rem}
+.contact-form{padding:1.75rem}
+.footer-inner{flex-direction:column;text-align:center}
+.footer-links{justify-content:center}
+}
+
+/* ── REDUCED MOTION ── */
+@media(prefers-reduced-motion:reduce){
+*,*::before,*::after{
+animation-duration:0.01ms !important;
+animation-iteration-count:1 !important;
+transition-duration:0.01ms !important;
+}
+html{scroll-behavior:auto}
+.reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+<div class="nav-inner">
+<a href="#" class="nav-logo">Cerniam</a>
+<button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+<span></span><span></span><span></span>
+</button>
+<ul class="nav-links" id="navLinks">
+<li><a href="#problem">Problem</a></li>
+<li><a href="#solution">Solution</a></li>
+<li><a href="#how-it-works">How It Works</a></li>
+<li><a href="#about">About</a></li>
+<li><a href="#contact">Contact</a></li>
+<li><a href="#contact" class="nav-cta">Get Started</a></li>
+</ul>
+</div>
+</nav>
+
+<!-- HERO -->
+<main>
+<div class="hero-bg"></div>
+<section class="hero">
+<div class="hero-content">
+<div class="hero-badge reveal">Retail Intelligence Platform</div>
+<h1 class="reveal reveal-delay-1">Retail Intelligence,<br><span class="accent">Reimagined</span></h1>
+<p class="hero-sub reveal reveal-delay-2">The operating system for modern retail. Cerniam connects fragmented data into unified insight, turning complexity into competitive advantage.</p>
+<div class="hero-actions reveal reveal-delay-3">
+<a href="#contact" class="btn-primary">Request a Demo</a>
+<a href="#how-it-works" class="btn-secondary">See How It Works</a>
+</div>
+</div>
+<div class="hero-panel reveal reveal-delay-2">
+<div class="hero-panel-label">Live Platform Metrics</div>
+<div class="hero-metric">
+<div class="hero-metric-value">98.7% <span class="cyan">Uptime</span></div>
+<div class="hero-metric-label">Across all connected retail nodes</div>
+<div class="hero-metric-bar"><div class="hero-metric-fill gold" data-width="98.7"></div></div>
+</div>
+<div class="hero-metric">
+<div class="hero-metric-value">2.4M <span class="cyan">SKUs</span></div>
+<div class="hero-metric-label">Tracked in real-time daily</div>
+<div class="hero-metric-bar"><div class="hero-metric-fill cyan" data-width="82"></div></div>
+</div>
+<div class="hero-metric">
+<div class="hero-metric-value">340ms <span class="cyan">Avg</span></div>
+<div class="hero-metric-label">Decision latency, end-to-end</div>
+<div class="hero-metric-bar"><div class="hero-metric-fill gold" data-width="91"></div></div>
+</div>
+</div>
+</section>
+
+<!-- PROBLEM -->
+<section class="section" id="problem">
+<div class="section-label reveal">The Problem</div>
+<h2 class="section-title reveal reveal-delay-1">Retail Is Broken at Scale</h2>
+<p class="section-desc reveal reveal-delay-2">Legacy systems create blind spots. Disconnected data leads to lost revenue, wasted inventory, and eroded margins. The numbers tell the story.</p>
+<div class="stats-grid">
+<div class="stat-card reveal reveal-delay-1">
+<div class="stat-icon red">
+<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+</div>
+<div class="stat-value" data-target="1.75" data-prefix="$" data-suffix="T" data-decimals="2">$0T</div>
+<div class="stat-label">Lost annually to stockouts and overstocking worldwide</div>
+</div>
+<div class="stat-card reveal reveal-delay-2">
+<div class="stat-icon orange">
+<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+</div>
+<div class="stat-value" data-target="68" data-suffix="%" data-decimals="0">0%</div>
+<div class="stat-label">Of retailers lack real-time supply chain visibility</div>
+</div>
+<div class="stat-card reveal reveal-delay-3">
+<div class="stat-icon cyan">
+<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+</div>
+<div class="stat-value" data-target="42" data-suffix="%" data-decimals="0">0%</div>
+<div class="stat-label">Margin erosion from operational inefficiency</div>
+</div>
+</div>
+</section>
+
+<!-- SOLUTION -->
+<section class="section" id="solution">
+<div class="section-label reveal">The Solution</div>
+<h2 class="section-title reveal reveal-delay-1">Intelligence That Compounds</h2>
+<p class="section-desc reveal reveal-delay-2">Cerniam weaves together three core capabilities into one coherent intelligence layer, purpose-built for retail at scale.</p>
+<div class="features-grid">
+<div class="feature-card reveal reveal-delay-1">
+<div class="feature-icon gold">
+<svg width="28" height="28" fill="none" stroke="#d4a853" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+</div>
+<h3>Demand Sensing</h3>
+<p>Machine-learning models that forecast demand shifts 6-8 weeks ahead, adapting to seasonality, promotions, and external signals in real time.</p>
+</div>
+<div class="feature-card reveal reveal-delay-2">
+<div class="feature-icon cyan">
+<svg width="28" height="28" fill="none" stroke="#3ecfcf" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+</div>
+<h3>Inventory Optimization</h3>
+<p>Dynamic replenishment and allocation engine that balances stock across channels, reducing waste by up to 35% while maintaining fill rates.</p>
+</div>
+<div class="feature-card reveal reveal-delay-3">
+<div class="feature-icon gold">
+<svg width="28" height="28" fill="none" stroke="#d4a853" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+</div>
+<h3>Unified Analytics</h3>
+<p>A single pane of glass across POS, e-commerce, warehouse, and supplier data. Real-time dashboards that surface what matters, when it matters.</p>
+</div>
+</div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how-it-works">
+<div class="section-label reveal">How It Works</div>
+<h2 class="section-title reveal reveal-delay-1">Five Stages. One Flow.</h2>
+<p class="section-desc reveal reveal-delay-2">From raw data to actionable intelligence in under a second. Each stage is observable, auditable, and built for enterprise scale.</p>
+<div class="flow reveal reveal-delay-3" id="flow">
+<div class="flow-stage active" data-stage="0">
+<div class="flow-num">01</div>
+<h4>Connect</h4>
+<p>Plug into POS, ERP, WMS, and e-commerce via pre-built connectors</p>
+</div>
+<div class="flow-stage" data-stage="1">
+<div class="flow-connector"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+<div class="flow-num">02</div>
+<h4>Ingest</h4>
+<p>Normalize and validate data streams in real time with schema enforcement</p>
+</div>
+<div class="flow-stage" data-stage="2">
+<div class="flow-connector"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+<div class="flow-num">03</div>
+<h4>Analyze</h4>
+<p>ML models detect patterns, anomalies, and forecast demand across SKUs</p>
+</div>
+<div class="flow-stage" data-stage="3">
+<div class="flow-connector"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+<div class="flow-num">04</div>
+<h4>Optimize</h4>
+<p>Generate allocation, pricing, and replenishment recommendations</p>
+</div>
+<div class="flow-stage" data-stage="4">
+<div class="flow-connector"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+<div class="flow-num">05</div>
+<h4>Act</h4>
+<p>Push decisions back to source systems or surface for human review</p>
+</div>
+</div>
+</section>
+
+<!-- ABOUT -->
+<section class="section" id="about">
+<div class="section-label reveal">About Cerniam</div>
+<h2 class="section-title reveal reveal-delay-1">Built for What Retail Becomes</h2>
+<div class="about-grid">
+<div class="about-text reveal reveal-delay-2">
+<h3>A New Foundation for Retail Operations</h3>
+<p>Cerniam was founded on a simple observation: the retail industry generates enormous amounts of data, but most of it never becomes insight. Legacy systems silo information, creating blind spots that cost billions annually.</p>
+<p>We built Cerniam to be the connective tissue between every system, channel, and decision in retail. Our platform unifies fragmented data into a single intelligence layer that learns, adapts, and acts at machine speed with human oversight.</p>
+<p>Backed by a team of retail operators, data scientists, and systems engineers, Cerniam serves mid-market and enterprise retailers across North America and Europe.</p>
+</div>
+<div class="about-metrics reveal reveal-delay-3">
+<div class="about-metric-card">
+<div class="val gold">150+</div>
+<div class="lbl">Enterprise retailers onboarded</div>
+</div>
+<div class="about-metric-card">
+<div class="val cyan">99.95%</div>
+<div class="lbl">Platform uptime SLA</div>
+</div>
+<div class="about-metric-card">
+<div class="val gold">12B+</div>
+<div class="lbl">Transactions processed yearly</div>
+</div>
+<div class="about-metric-card">
+<div class="val cyan">23%</div>
+<div class="lbl">Average margin improvement</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- CONTACT -->
+<section class="section" id="contact">
+<div class="section-label reveal">Get in Touch</div>
+<h2 class="section-title reveal reveal-delay-1">Start the Conversation</h2>
+<div class="contact-grid">
+<div class="contact-info reveal reveal-delay-2">
+<h3>Let's explore what Cerniam can do for your retail operation.</h3>
+<p>Whether you're running 50 stores or 5,000, our team will map your data landscape and show you exactly where intelligence can unlock margin, speed, and clarity.</p>
+<div class="contact-detail">
+<div class="contact-detail-icon">
+<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+</div>
+hello@cerniam.com
+</div>
+<div class="contact-detail">
+<div class="contact-detail-icon">
+<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+</div>
+San Francisco, CA
+</div>
+</div>
+<div class="contact-form reveal reveal-delay-3">
+<form id="contactForm" class="form-fields" novalidate>
+<div class="form-group">
+<label for="name">Full Name</label>
+<input type="text" id="name" name="name" placeholder="Jane Smith" required>
+<div class="form-error" id="nameError">Please enter your name.</div>
+</div>
+<div class="form-group">
+<label for="email">Work Email</label>
+<input type="email" id="email" name="email" placeholder="jane@company.com" required>
+<div class="form-error" id="emailError">Please enter a valid email address.</div>
+</div>
+<div class="form-group">
+<label for="company">Company</label>
+<input type="text" id="company" name="company" placeholder="Acme Retail">
+</div>
+<div class="form-group">
+<label for="message">Message</label>
+<textarea id="message" name="message" placeholder="Tell us about your current retail challenges..." rows="4" required></textarea>
+<div class="form-error" id="messageError">Please enter a message.</div>
+</div>
+<button type="submit" class="form-submit">Send Message</button>
+</form>
+<div class="form-success" id="formSuccess">
+<h4>Message Sent</h4>
+<p>Thank you for reaching out. A member of the Cerniam team will be in touch within one business day.</p>
+</div>
+</div>
+</div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+<div class="footer-inner">
+<div class="footer-brand">Cerniam</div>
+<div class="footer-copy">&copy; 2026 Cerniam, Inc. All rights reserved.</div>
+<ul class="footer-links">
+<li><a href="#problem">Problem</a></li>
+<li><a href="#solution">Solution</a></li>
+<li><a href="#how-it-works">How It Works</a></li>
+<li><a href="#about">About</a></li>
+<li><a href="#contact">Contact</a></li>
+</ul>
+</div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+
+/* ── MOBILE NAV ── */
+var toggle = document.getElementById('navToggle');
+var navLinks = document.getElementById('navLinks');
+toggle.addEventListener('click', function(){
+var open = navLinks.classList.toggle('open');
+toggle.classList.toggle('active');
+toggle.setAttribute('aria-expanded', open);
+});
+navLinks.querySelectorAll('a').forEach(function(a){
+a.addEventListener('click', function(){
+navLinks.classList.remove('open');
+toggle.classList.remove('active');
+toggle.setAttribute('aria-expanded', 'false');
+});
+});
+
+/* ── SCROLL REVEAL ── */
+var revealEls = document.querySelectorAll('.reveal');
+var revealObs = new IntersectionObserver(function(entries){
+entries.forEach(function(e){
+if(e.isIntersecting){
+e.target.classList.add('visible');
+revealObs.unobserve(e.target);
+}
+});
+},{threshold:0.15,rootMargin:'0px 0px -40px 0px'});
+revealEls.forEach(function(el){revealObs.observe(el)});
+
+/* ── HERO BARS ── */
+var barObs = new IntersectionObserver(function(entries){
+entries.forEach(function(e){
+if(e.isIntersecting){
+e.target.style.transform = 'scaleX(' + (e.target.getAttribute('data-width') / 100) + ')';
+barObs.unobserve(e.target);
+}
+});
+},{threshold:0.3});
+document.querySelectorAll('.hero-metric-fill').forEach(function(el){barObs.observe(el)});
+
+/* ── KPI COUNTER ── */
+function animateCounter(el){
+var target = parseFloat(el.getAttribute('data-target'));
+var prefix = el.getAttribute('data-prefix') || '';
+var suffix = el.getAttribute('data-suffix') || '';
+var decimals = parseInt(el.getAttribute('data-decimals')) || 0;
+var duration = 1800;
+var start = null;
+function step(ts){
+if(!start) start = ts;
+var progress = Math.min((ts - start) / duration, 1);
+var eased = 1 - Math.pow(1 - progress, 3);
+var val = (eased * target).toFixed(decimals);
+el.textContent = prefix + val + suffix;
+if(progress < 1) requestAnimationFrame(step);
+}
+requestAnimationFrame(step);
+}
+var kpiEls = document.querySelectorAll('.stat-value[data-target]');
+var kpiObs = new IntersectionObserver(function(entries){
+entries.forEach(function(e){
+if(e.isIntersecting){
+animateCounter(e.target);
+kpiObs.unobserve(e.target);
+}
+});
+},{threshold:0.4});
+kpiEls.forEach(function(el){kpiObs.observe(el)});
+
+/* ── FLOW STAGE CYCLING ── */
+var stages = document.querySelectorAll('.flow-stage');
+var currentStage = 0;
+function activateStage(idx){
+stages.forEach(function(s){s.classList.remove('active')});
+stages[idx].classList.add('active');
+}
+function startCycle(){
+setInterval(function(){
+currentStage = (currentStage + 1) % stages.length;
+activateStage(currentStage);
+}, 2500);
+}
+var flowObs = new IntersectionObserver(function(entries){
+entries.forEach(function(e){
+if(e.isIntersecting){
+startCycle();
+flowObs.unobserve(e.target);
+}
+});
+},{threshold:0.3});
+flowObs.observe(document.getElementById('flow'));
+
+/* ── CONTACT FORM ── */
+var form = document.getElementById('contactForm');
+var formSuccess = document.getElementById('formSuccess');
+function showError(id, inputId){
+document.getElementById(id).classList.add('visible');
+document.getElementById(inputId).classList.add('error');
+}
+function clearErrors(){
+form.querySelectorAll('.form-error').forEach(function(e){e.classList.remove('visible')});
+form.querySelectorAll('input,textarea').forEach(function(e){e.classList.remove('error')});
+}
+form.addEventListener('submit', function(e){
+e.preventDefault();
+clearErrors();
+var valid = true;
+var name = document.getElementById('name');
+var email = document.getElementById('email');
+var message = document.getElementById('message');
+if(!name.value.trim()){showError('nameError','name');valid=false}
+if(!email.value.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)){
+showError('emailError','email');valid=false;
+}
+if(!message.value.trim()){showError('messageError','message');valid=false}
+if(valid){
+form.classList.add('hidden');
+formSuccess.classList.add('visible');
+}
+});
+
+})();
+</script>
+</body>
+</html>
