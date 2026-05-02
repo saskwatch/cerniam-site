@@ -1,782 +1,1306 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cerniam | The AI Research Laboratory</title>
-  <meta name="description" content="Cerniam is an applied AI laboratory building intelligent systems that learn, adapt, and act. From autonomous agents to predictive infrastructure — we turn research into real-world impact.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg-1: #0a0e27;
-      --bg-2: #1a1135;
-      --text: #ffffff;
-      --text-soft: rgba(255, 255, 255, 0.8);
-      --text-muted: rgba(255, 255, 255, 0.68);
-      --gold: #ffd700;
-      --orange: #ff8c00;
-      --cyan: #00d2ff;
-      --panel: rgba(16, 24, 58, 0.55);
-      --border: rgba(255, 255, 255, 0.14);
-      --shadow: 0 20px 50px rgba(0, 0, 0, 0.42);
-      --radius: 20px;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: "Inter", "Avenir Next", "Segoe UI", sans-serif;
-      color: var(--text);
-      background: linear-gradient(150deg, var(--bg-1) 0%, var(--bg-2) 45%, #0f1537 100%);
-      overflow-x: hidden;
-      min-height: 100vh;
-      -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
-    }
-
-    body::before,
-    body::after {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: -2;
-    }
-
-    body::before {
-      background:
-        radial-gradient(900px 600px at 10% 0%, rgba(255, 140, 0, 0.16), transparent 65%),
-        radial-gradient(1000px 700px at 90% 20%, rgba(0, 210, 255, 0.15), transparent 72%),
-        linear-gradient(150deg, var(--bg-1) 0%, var(--bg-2) 55%, #0f1537 100%);
-    }
-
-    body::after {
-      background-image:
-        radial-gradient(circle at 20% 35%, rgba(255, 255, 255, 0.1) 0.8px, transparent 1px),
-        radial-gradient(circle at 70% 60%, rgba(0, 210, 255, 0.15) 0.8px, transparent 1px),
-        linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
-      background-size: 220px 220px, 320px 320px, 54px 54px, 54px 54px;
-      opacity: 0.38;
-      animation: driftGrid 36s linear infinite;
-    }
-
-    @keyframes driftGrid {
-      0% {
-        transform: translate3d(0, 0, 0) scale(1);
-      }
-      50% {
-        transform: translate3d(-24px, -34px, 0) scale(1.02);
-      }
-      100% {
-        transform: translate3d(-48px, -68px, 0) scale(1);
-      }
-    }
-
-    .container {
-      width: min(1140px, 92vw);
-      margin: 0 auto;
-    }
-
-    section {
-      padding: clamp(4.5rem, 8vw, 7.5rem) 0;
-      position: relative;
-    }
-
-    .glass {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      box-shadow: var(--shadow);
-    }
-
-    .section-label {
-      display: inline-block;
-      margin-bottom: 1rem;
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      color: var(--cyan);
-    }
-
-    h1,
-    h2,
-    h3 {
-      text-wrap: balance;
-    }
-
-    h2 {
-      font-size: clamp(1.85rem, 4.6vw, 3.2rem);
-      line-height: 1.1;
-      letter-spacing: -0.03em;
-      margin-bottom: 1rem;
-    }
-
-    p {
-      color: var(--text-soft);
-      line-height: 1.74;
-      font-size: clamp(0.98rem, 1.22vw, 1.1rem);
-    }
-
-    .logo {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--text);
-      margin-bottom: clamp(2rem, 6vw, 4.5rem);
-    }
-
-    .logo-dot {
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--gold), var(--orange));
-      box-shadow: 0 0 18px rgba(255, 180, 0, 0.85);
-    }
-
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero-video {
-      position: absolute;
-      top: 50%; left: 50%;
-      min-width: 100%; min-height: 100%;
-      transform: translate(-50%, -50%);
-      object-fit: cover;
-      opacity: 0.2;
-      z-index: 0;
-    }
-    .hero .container { position: relative; z-index: 1; }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1fr 0.86fr;
-      gap: clamp(1.2rem, 4vw, 4rem);
-      align-items: center;
-    }
-
-    .hero h1 {
-      font-size: clamp(2.5rem, 7vw, 5.8rem);
-      line-height: 0.98;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-bottom: 1.2rem;
-    }
-
-    .hero-subhead {
-      max-width: 36rem;
-      margin-bottom: 2rem;
-      color: var(--text-muted);
-    }
-
-    .cta {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0.95rem 1.35rem;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 215, 0, 0.5);
-      background: linear-gradient(140deg, rgba(255, 215, 0, 0.2), rgba(255, 140, 0, 0.26));
-      color: var(--text);
-      text-decoration: none;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
-      box-shadow: 0 0 30px rgba(255, 165, 0, 0.35);
-    }
-
-    .cta:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 34px rgba(255, 180, 0, 0.55);
-    }
-
-    .hero-panel {
-      padding: clamp(1.5rem, 2.2vw, 2rem);
-      min-height: 320px;
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 1rem;
-      align-content: center;
-    }
-
-    .hero-chip {
-      padding: 1rem;
-      border-radius: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      background: rgba(255, 255, 255, 0.04);
-    }
-
-    .hero-chip strong {
-      display: block;
-      font-size: 1.55rem;
-      line-height: 1;
-      margin-bottom: 0.45rem;
-      color: var(--gold);
-      font-variant-numeric: tabular-nums;
-    }
-
-    .hero-chip:nth-child(2) strong,
-    .hero-chip:nth-child(4) strong {
-      color: var(--cyan);
-    }
-
-    .hero-chip span {
-      display: block;
-      color: var(--text-muted);
-      font-size: 0.86rem;
-      line-height: 1.45;
-    }
-
-    .problem-grid,
-    .solution-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 1rem;
-      margin: 2rem 0;
-    }
-
-    .stat-card,
-    .solution-card {
-      padding: 1.3rem;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .stat-card::before,
-    .solution-card::before {
-      content: "";
-      position: absolute;
-      top: -38%;
-      right: -38%;
-      width: 190px;
-      height: 190px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(0, 210, 255, 0.16) 0%, transparent 70%);
-    }
-
-    .stat-card:hover,
-    .solution-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(255, 215, 0, 0.35);
-      box-shadow: 0 0 30px rgba(255, 175, 0, 0.2);
-    }
-
-    .kpi {
-      font-size: clamp(2rem, 5vw, 3.2rem);
-      line-height: 1;
-      margin-bottom: 0.7rem;
-      letter-spacing: -0.02em;
-      color: var(--gold);
-      font-weight: 800;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .kpi-description {
-      color: var(--text-soft);
-      font-size: 0.95rem;
-      line-height: 1.6;
-    }
-
-    .problem-copy {
-      max-width: 70ch;
-      color: var(--text-muted);
-    }
-
-    .icon {
-      width: 38px;
-      height: 38px;
-      margin-bottom: 0.9rem;
-      color: var(--cyan);
-    }
-
-    .solution-card h3 {
-      font-size: 1.3rem;
-      margin-bottom: 0.7rem;
-      letter-spacing: -0.01em;
-    }
-
-    .solution-card p {
-      font-size: 0.98rem;
-      color: var(--text-soft);
-      margin-bottom: 1rem;
-    }
-
-    .kpi-callout {
-      display: inline-block;
-      padding: 0.55rem 0.75rem;
-      border-radius: 10px;
-      border: 1px solid rgba(255, 215, 0, 0.36);
-      background: rgba(255, 215, 0, 0.09);
-      color: rgba(255, 234, 150, 0.96);
-      font-size: 0.83rem;
-      line-height: 1.45;
-    }
-
-    .flow-wrap {
-      margin-top: 2rem;
-      padding: clamp(1rem, 2.2vw, 1.5rem);
-    }
-
-    .flow {
-      display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 0.55rem;
-      align-items: stretch;
-    }
-
-    .stage {
-      position: relative;
-      min-height: 170px;
-      border-radius: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      background: rgba(255, 255, 255, 0.04);
-      padding: 0.9rem;
-      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-    }
-
-    .stage.active {
-      border-color: rgba(255, 215, 0, 0.55);
-      box-shadow: 0 0 24px rgba(255, 178, 0, 0.35);
-      transform: translateY(-3px);
-    }
-
-    .stage strong {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: rgba(0, 210, 255, 0.16);
-      border: 1px solid rgba(0, 210, 255, 0.45);
-      margin-bottom: 0.7rem;
-      font-size: 0.84rem;
-      color: var(--cyan);
-    }
-
-    .stage h4 {
-      font-size: 0.92rem;
-      margin-bottom: 0.35rem;
-      letter-spacing: 0.01em;
-      line-height: 1.45;
-    }
-
-    .stage p {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      line-height: 1.5;
-    }
-
-    .engine-copy {
-      margin-top: 1.25rem;
-      color: var(--text-muted);
-      max-width: 72ch;
-    }
-
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 1rem;
-      margin-top: 1.8rem;
-    }
-
-    .about-panel,
-    .contact-panel {
-      padding: clamp(1.2rem, 2.4vw, 1.7rem);
-    }
-
-    .contact-panel h3 {
-      font-size: 1.25rem;
-      margin-bottom: 0.8rem;
-    }
-
-    form {
-      display: grid;
-      gap: 0.72rem;
-    }
-
-    label {
-      font-size: 0.79rem;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-    }
-
-    input,
-    textarea {
-      width: 100%;
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.17);
-      background: rgba(10, 14, 39, 0.7);
-      color: var(--text);
-      padding: 0.74rem 0.85rem;
-      font: inherit;
-    }
-
-    textarea {
-      min-height: 120px;
-      resize: vertical;
-    }
-
-    input:focus,
-    textarea:focus {
-      outline: none;
-      border-color: rgba(0, 210, 255, 0.7);
-      box-shadow: 0 0 0 3px rgba(0, 210, 255, 0.14);
-    }
-
-    .submit {
-      margin-top: 0.4rem;
-      justify-self: start;
-      cursor: pointer;
-    }
-
-    footer {
-      border-top: 1px solid rgba(255, 255, 255, 0.14);
-      padding: 2rem 0 2.6rem;
-      color: var(--text-muted);
-      font-size: 0.84rem;
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateX(28px);
-      transition: opacity 0.75s ease, transform 0.75s ease;
-      transition-delay: var(--delay, 0ms);
-    }
-
-    .reveal.in-view {
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    @media (max-width: 1040px) {
-      .hero-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .hero {
-        min-height: auto;
-        padding-top: 6.5rem;
-      }
-
-      .hero-panel {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .problem-grid,
-      .solution-grid,
-      .flow,
-      .about-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .flow {
-        gap: 0.7rem;
-      }
-
-      .stage {
-        min-height: auto;
-      }
-    }
-
-    @media (max-width: 640px) {
-      section {
-        padding: 4rem 0;
-      }
-
-      .hero h1 {
-        letter-spacing: 0.04em;
-      }
-
-      .hero-panel {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 1040px) {
-      .glass {
-        will-change: transform;
-        -webkit-overflow-scrolling: touch;
-      }
-
-      .stage {
-        touch-action: manipulation;
-      }
-
-      .cta, .submit, .hero-chip {
-        touch-action: manipulation;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      * {
-        animation: none !important;
-        transition: none !important;
-      }
-    }
-  </style>
-</head>
-<body>
-  <main>
-    <section class="hero">
-      <video class="hero-video" autoplay muted loop playsinline>
-        <source src="cerniam-hero.mp4" type="video/mp4">
-      </video>
-      <div class="container hero-grid">
-        <div>
-          <div class="logo">
-            <span class="logo-dot"></span>
-            <span>Cerniam</span>
-          </div>
-          <h1>The AI Research Laboratory</h1>
-          <p class="hero-subhead">Autonomous agents. Predictive infrastructure. Intelligence systems that learn, adapt, and act.</p>
-          <a href="#how-it-works" class="cta">See How It Works</a>
-        </div>
-        <aside class="hero-panel glass reveal" style="--delay: 100ms">
-          <article class="hero-chip">
-            <strong>47x</strong>
-            <span>faster iteration cycles with autonomous agent pipelines</span>
-          </article>
-          <article class="hero-chip">
-            <strong>$2.1T</strong>
-            <span>projected AI infrastructure market by 2030</span>
-          </article>
-          <article class="hero-chip">
-            <strong>89%</strong>
-            <span>of enterprises blocked by fragmented AI toolchains</span>
-          </article>
-          <article class="hero-chip">
-            <strong>1</strong>
-            <span>unified laboratory connecting research to deployment</span>
-          </article>
-        </aside>
-      </div>
-    </section>
-
-    <section id="problem">
-      <div class="container">
-        <span class="section-label">THE CHALLENGE</span>
-        <h2>Enterprise AI Runs on Duct Tape</h2>
-        <div class="problem-grid">
-          <article class="stat-card glass reveal" style="--delay: 0ms">
-            <h3 class="kpi"><span class="tick" data-target="87" data-prefix="" data-suffix="%">0</span></h3>
-            <p class="kpi-description">of AI projects never make it to production</p>
-          </article>
-          <article class="stat-card glass reveal" style="--delay: 170ms">
-            <h3 class="kpi"><span class="tick" data-target="4" data-prefix="" data-suffix="x">0</span></h3>
-            <p class="kpi-description">average cost overrun on enterprise AI deployments</p>
-          </article>
-          <article class="stat-card glass reveal" style="--delay: 340ms">
-            <h3 class="kpi"><span class="tick" data-target="73" data-prefix="" data-suffix="%">0</span></h3>
-            <p class="kpi-description">of teams say disconnected tools block AI adoption</p>
-          </article>
-        </div>
-        <p class="problem-copy">The enterprise AI stack is fragmented. Model training, agent orchestration, deployment pipelines, and monitoring operate in separate worlds — separate tools that don't compose. By the time a model is validated, an agent is debugged, or a pipeline is deployed, the opportunity window has closed. The intelligence exists. The infrastructure doesn't.</p>
-      </div>
-    </section>
-
-    <section id="solution">
-      <div class="container">
-        <span class="section-label">WHAT CERNIAM DOES</span>
-        <h2>Intelligence Systems That Ship, Not Slide Decks</h2>
-        <div class="solution-grid">
-          <article class="solution-card glass reveal" style="--delay: 0ms">
-            <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M2 12C4.2 12 4.2 7 6.4 7S8.6 15 10.8 15 13 5 15.2 5 17.4 19 19.6 19 21.8 12 22 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-            </svg>
-            <h3>Autonomous Agent Pipelines</h3>
-            <p>Cerniam builds agent systems that observe, reason, and act — not chatbots with fancy prompts. Multi-agent orchestration, adversarial review layers, and continuous learning loops that improve with every cycle. Not demos. Production systems.</p>
-            <span class="kpi-callout">Agent pipeline throughput: 47x faster iteration vs. manual prompt engineering</span>
-          </article>
-
-          <article class="solution-card glass reveal" style="--delay: 200ms">
-            <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M4 7.5A2.5 2.5 0 1 1 4 12.5 2.5 2.5 0 0 1 4 7.5ZM20 3.5A2.5 2.5 0 1 1 20 8.5 2.5 2.5 0 0 1 20 3.5ZM19 15.5A2.5 2.5 0 1 1 19 20.5 2.5 2.5 0 0 1 19 15.5ZM6.3 9.2l11-3M6.2 10.8l10.8 7.3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-            </svg>
-            <h3>One Brain Across Every System</h3>
-            <p>Models, agents, data pipelines, and deployment targets operate as one unified context — not four disconnected dashboards. When a model improves in one domain, every connected system benefits in real time. No more siloed intelligence.</p>
-            <span class="kpi-callout">Integration latency: hours to seconds across the full AI stack</span>
-          </article>
-
-          <article class="solution-card glass reveal" style="--delay: 400ms">
-            <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M4 16l5-5 3.2 3.2L20 6.5M20 6.5V11M20 6.5h-4.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <h3>Predictive Infrastructure That Learns</h3>
-            <p>Cerniam's infrastructure layer continuously evaluates system performance, resource allocation, and model drift. When intervention is needed — scaling, retraining, rerouting — it acts autonomously. Human oversight where it matters. Speed everywhere else.</p>
-            <span class="kpi-callout">Infrastructure efficiency: 60-80% reduction in manual intervention</span>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="how-it-works">
-      <div class="container">
-        <span class="section-label">THE ENGINE</span>
-        <h2>From Research to Production in Real Time</h2>
-        <div class="flow-wrap glass reveal" style="--delay: 80ms">
-          <div class="flow" id="flow">
-            <article class="stage active">
-              <strong>1</strong>
-              <h4>Research Signal</h4>
-              <p>Emerging patterns, model breakthroughs, and market intelligence captured continuously</p>
-            </article>
-            <article class="stage">
-              <strong>2</strong>
-              <h4>System Context</h4>
-              <p>Signals unified with existing infrastructure, agent state, and deployment targets into a live operational model</p>
-            </article>
-            <article class="stage">
-              <strong>3</strong>
-              <h4>Evaluation</h4>
-              <p>The system assesses: is there an improvement opportunity? What is the impact of acting vs. not acting?</p>
-            </article>
-            <article class="stage">
-              <strong>4</strong>
-              <h4>Autonomous Action</h4>
-              <p>When the data supports it: retrain, redeploy, scale, intervene — automatically</p>
-            </article>
-            <article class="stage">
-              <strong>5</strong>
-              <h4>Measurable Impact</h4>
-              <p>Quantifiable lift in system performance, deployment velocity, and operational efficiency</p>
-            </article>
-          </div>
-        </div>
-        <p class="engine-copy">Cerniam doesn't replace your existing systems. It sits on top of them — connecting models, agents, pipelines, and infrastructure into a single operational context. The system reads that context continuously, detects optimization opportunities, and acts when the value justifies intervention. Your technology stack stays. Your blind spots don't.</p>
-      </div>
-    </section>
-
-    <section id="about-contact">
-      <div class="container">
-        <span class="section-label">WHO WE ARE</span>
-        <h2>Built by Engineers, Not Theorists</h2>
-        <div class="about-grid">
-          <article class="about-panel glass reveal" style="--delay: 0ms">
-            <p>Cerniam was founded by engineers who have built and scaled the systems that power modern AI infrastructure — from agent orchestration frameworks handling millions of decisions to predictive systems serving enterprise-scale deployments. We are not pitching a vision. We are building the intelligence layer that enterprises have needed since AI went mainstream and integration stayed manual.</p>
-          </article>
-          <article class="contact-panel glass reveal" style="--delay: 170ms">
-            <h3>Let's talk.</h3>
-            <form>
-              <label for="name">Name</label>
-              <input id="name" name="name" type="text" autocomplete="name" required>
-              <label for="email">Email</label>
-              <input id="email" name="email" type="email" autocomplete="email" required>
-              <label for="company">Company</label>
-              <input id="company" name="company" type="text" autocomplete="organization" required>
-              <label for="message">Message</label>
-              <textarea id="message" name="message" required></textarea>
-              <button type="submit" class="cta submit">Send</button>
-            </form>
-          </article>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="container">2026 Cerniam. All rights reserved.</div>
-  </footer>
-
-  <script>
-    (function () {
-      const reveals = document.querySelectorAll(".reveal");
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("in-view");
-              observer.unobserve(entry.target);
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cerniam — The Retail Intelligence Layer</title>
+    <meta name="description" content="Cerniam is the retail intelligence layer. Don't move the data to intelligence — move the intelligence to the data. One chassis. Seven plug-ins. Real-time decisions across every Module.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        dark: '#05081A',
+                        navy: '#0D1340',
+                        gold: { DEFAULT: '#F5A623', light: '#FFD700' },
+                        ice:  '#00D4FF',
+                    }
+                }
             }
-          });
-        },
-        { threshold: 0.2, rootMargin: "0px 0px -10% 0px" }
-      );
-      reveals.forEach((item) => observer.observe(item));
+        }
+    </script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-      const ticks = document.querySelectorAll(".tick");
-      const problemSection = document.getElementById("problem");
-      let hasTicked = false;
-
-      function animateCount(el) {
-        const end = Number(el.dataset.target || 0);
-        const prefix = el.dataset.prefix || "";
-        const suffix = el.dataset.suffix || "";
-        const duration = 1400;
-        const startTime = performance.now();
-
-        function step(now) {
-          const progress = Math.min((now - startTime) / duration, 1);
-          const eased = 1 - Math.pow(1 - progress, 3);
-          const value = Math.floor(end * eased);
-          el.textContent = prefix + value + suffix;
-          if (progress < 1) {
-            requestAnimationFrame(step);
-          } else {
-            el.textContent = prefix + end + suffix;
-          }
+        body {
+            background: #05081A;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
         }
 
-        requestAnimationFrame(step);
-      }
+        /* ── Scroll Progress ────────────────────────────────── */
+        #progress-bar {
+            position: fixed; top: 0; left: 0;
+            height: 2px; width: 0%;
+            background: linear-gradient(90deg, #F5A623, #FFD700, #00D4FF);
+            z-index: 9999;
+            transition: width 80ms linear;
+        }
 
-      const kpiObserver = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting && !hasTicked) {
-              hasTicked = true;
-              ticks.forEach((tick) => animateCount(tick));
-              kpiObserver.disconnect();
+        /* ── Nav ────────────────────────────────────────────── */
+        #site-nav {
+            position: fixed; top: 0; left: 0; right: 0;
+            z-index: 500;
+            padding: 1.5rem 2rem;
+            transition: all 0.4s ease;
+        }
+        #site-nav.scrolled {
+            padding: 1rem 2rem;
+            background: rgba(5, 8, 26, 0.88);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        /* ── Hero Canvas ────────────────────────────────────── */
+        #hero-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+        }
+
+        /* ── Headline Slide-Up ──────────────────────────────── */
+        .lw { overflow: hidden; display: block; }
+        .rl {
+            display: block;
+            transform: translateY(110%);
+            opacity: 0;
+            transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+                        opacity 0.6s ease;
+        }
+        .rl.up { transform: translateY(0); opacity: 1; }
+        .rl-d1 { transition-delay: 0.15s; }
+        .rl-d2 { transition-delay: 0.3s; }
+        .rl-d3 { transition-delay: 0.45s; }
+        .rl-d4 { transition-delay: 0.6s; }
+        .rl-d5 { transition-delay: 0.75s; }
+
+        /* ── Fade Up (scroll reveal) ─────────────────────────── */
+        .fu {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.85s ease, transform 0.85s cubic-bezier(0.16,1,0.3,1);
+        }
+        .fu.vis { opacity: 1; transform: translateY(0); }
+        .fu-d1 { transition-delay: 0.1s; }
+        .fu-d2 { transition-delay: 0.2s; }
+        .fu-d3 { transition-delay: 0.3s; }
+        .fu-d4 { transition-delay: 0.4s; }
+        .fu-d5 { transition-delay: 0.5s; }
+        .fu-d6 { transition-delay: 0.6s; }
+
+        /* ── Gold Gradient Text ──────────────────────────────── */
+        .gold-text {
+            background: linear-gradient(120deg, #F5A623 0%, #FFD700 40%, #F5A623 80%);
+            background-size: 220% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 5s linear infinite;
+        }
+        .ice-text {
+            background: linear-gradient(120deg, #00D4FF 0%, #7dd3fc 50%, #00D4FF 100%);
+            background-size: 220% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 6s linear infinite;
+        }
+        @keyframes shimmer {
+            0%   { background-position: -220% center; }
+            100% { background-position: 220% center; }
+        }
+
+        /* ── Section Label ───────────────────────────────────── */
+        .s-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.6875rem;
+            font-weight: 700;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: #F5A623;
+            margin-bottom: 1.75rem;
+        }
+        .s-label::before {
+            content: '';
+            display: block;
+            width: 2.25rem; height: 1px;
+            background: #F5A623;
+            flex-shrink: 0;
+        }
+        .s-label.ice { color: #00D4FF; }
+        .s-label.ice::before { background: #00D4FF; }
+
+        /* ── Glass ───────────────────────────────────────────── */
+        .glass {
+            background: rgba(255,255,255,0.04);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.07);
+        }
+
+        /* ── Stat / Tier Cards ───────────────────────────────── */
+        .stat-card {
+            border-radius: 1.25rem;
+            padding: 2.25rem 2rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.35s ease, background 0.35s ease, border-color 0.35s ease;
+        }
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 15%; right: 15%;
+            height: 2px;
+            border-radius: 0 0 2px 2px;
+        }
+        .stat-card.gold-top::before { background: linear-gradient(90deg, transparent, #F5A623, transparent); }
+        .stat-card.ice-top::before  { background: linear-gradient(90deg, transparent, #00D4FF, transparent); }
+        .stat-card.dim-top::before  { background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent); }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(245,166,35,0.25);
+        }
+        .stat-num {
+            font-size: clamp(2.25rem, 4.4vw, 3.5rem);
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: -0.03em;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* ── Two-Column Contrast ─────────────────────────────── */
+        .contrast-col {
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+            position: relative;
+            overflow: hidden;
+        }
+        .contrast-col.bad   { border-color: rgba(255,255,255,0.06); background: rgba(255,255,255,0.015); }
+        .contrast-col.good  { border-color: rgba(245,166,35,0.25); background: rgba(245,166,35,0.04); }
+        .contrast-col .hat {
+            font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.28em;
+            text-transform: uppercase; margin-bottom: 1rem;
+        }
+        .contrast-col.bad  .hat { color: rgba(255,255,255,0.45); }
+        .contrast-col.good .hat { color: #F5A623; }
+        .contrast-col h3 {
+            font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+        .contrast-col p { color: rgba(255,255,255,0.6); line-height: 1.7; }
+        .flow-line {
+            margin-top: 1.5rem; padding-top: 1.25rem;
+            border-top: 1px solid rgba(255,255,255,0.07);
+            font-size: 0.875rem; color: rgba(255,255,255,0.5);
+            font-family: 'Inter', monospace; letter-spacing: 0.02em;
+        }
+        .contrast-col.good .flow-line { color: rgba(255,215,0,0.85); }
+
+        /* ── Tier cards (ICV) ────────────────────────────────── */
+        .tier-card {
+            border-radius: 1.25rem;
+            padding: 2rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+            transition: transform 0.35s ease, border-color 0.35s ease;
+            position: relative;
+        }
+        .tier-card:hover { transform: translateY(-4px); }
+        .tier-card.t1 { border-color: rgba(255,255,255,0.12); }
+        .tier-card.t2 { border-color: rgba(0,212,255,0.22); }
+        .tier-card.t3 { border-color: rgba(245,166,35,0.4); background: rgba(245,166,35,0.05); }
+        .tier-num {
+            font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.28em;
+            text-transform: uppercase; margin-bottom: 1rem;
+            color: rgba(255,255,255,0.4);
+        }
+        .tier-card.t2 .tier-num { color: #00D4FF; }
+        .tier-card.t3 .tier-num { color: #F5A623; }
+        .tier-card h3 { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 1rem; }
+        .tier-card p { color: rgba(255,255,255,0.6); line-height: 1.7; font-size: 0.9375rem; }
+        .tier-where {
+            display: block; margin-top: 1rem; padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.07);
+            font-size: 0.75rem; color: rgba(255,255,255,0.35);
+            letter-spacing: 0.05em;
+        }
+
+        /* ── Architecture Stack ──────────────────────────────── */
+        .arch-row {
+            border-radius: 1.25rem;
+            padding: 1.75rem 2rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+        }
+        .arch-row .row-label {
+            font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.28em;
+            text-transform: uppercase; margin-bottom: 1.25rem;
+        }
+        .arch-row.modules .row-label { color: #F5A623; }
+        .arch-row.chassis .row-label { color: #00D4FF; }
+        .arch-row.plugins .row-label { color: rgba(255,255,255,0.55); }
+        .arch-row.chassis {
+            background: linear-gradient(180deg, rgba(0,212,255,0.05), rgba(0,212,255,0.02));
+            border-color: rgba(0,212,255,0.2);
+        }
+        .pill {
+            display: inline-flex; align-items: center;
+            padding: 0.5rem 0.875rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.04);
+            font-size: 0.8125rem; font-weight: 600;
+            color: rgba(255,255,255,0.85);
+            transition: all 0.3s ease;
+        }
+        .pill:hover { border-color: rgba(245,166,35,0.4); background: rgba(245,166,35,0.08); }
+        .pill.gold {
+            border-color: rgba(245,166,35,0.35);
+            background: rgba(245,166,35,0.08);
+            color: #FFD700;
+        }
+        .pill.ice {
+            border-color: rgba(0,212,255,0.35);
+            background: rgba(0,212,255,0.08);
+            color: #7dd3fc;
+        }
+        .pill.dim {
+            border-color: rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.02);
+            color: rgba(255,255,255,0.55);
+            font-style: italic;
+        }
+        .arch-arrow {
+            display: flex; align-items: center; justify-content: center;
+            color: rgba(255,255,255,0.25);
+            padding: 0.75rem 0;
+        }
+
+        /* ── Collapse Table ──────────────────────────────────── */
+        .collapse-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 1rem;
+            overflow: hidden;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.07);
+            font-size: 0.9375rem;
+        }
+        .collapse-table th {
+            text-align: left;
+            padding: 1.25rem 1.5rem;
+            font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            background: rgba(255,255,255,0.03);
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+        }
+        .collapse-table td {
+            padding: 1rem 1.5rem;
+            color: rgba(255,255,255,0.8);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            vertical-align: top;
+            line-height: 1.55;
+        }
+        .collapse-table tr:last-child td { border-bottom: none; }
+        .collapse-table .cap { font-weight: 700; color: #fff; }
+        .collapse-table .swarm { color: rgba(255,255,255,0.5); font-size: 0.875rem; }
+        .collapse-table .pi {
+            font-weight: 700;
+            color: #FFD700;
+        }
+        .collapse-table tr:hover td { background: rgba(245,166,35,0.025); }
+
+        /* ── Number Tiles ────────────────────────────────────── */
+        .num-tile {
+            border-radius: 1.5rem;
+            padding: 2.25rem 1.75rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s ease, border-color 0.4s ease, background 0.4s ease;
+        }
+        .num-tile::after {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #F5A623, #FFD700, #F5A623, transparent);
+        }
+        .num-tile:hover {
+            transform: translateY(-6px);
+            border-color: rgba(245,166,35,0.3);
+            background: rgba(245,166,35,0.04);
+        }
+        .num-tile .big {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: -0.03em;
+            color: #FFD700;
+            margin-bottom: 0.875rem;
+            font-variant-numeric: tabular-nums;
+        }
+        .num-tile .label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: rgba(255,255,255,0.85);
+            margin-bottom: 0.5rem;
+        }
+        .num-tile .sub {
+            font-size: 0.8125rem;
+            color: rgba(255,255,255,0.45);
+            line-height: 1.5;
+        }
+
+        /* ── Worked Example Cards ────────────────────────────── */
+        .worked-card {
+            border-radius: 1.25rem;
+            padding: 1.75rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+            margin-bottom: 1rem;
+        }
+        .worked-card .lane-hat {
+            font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #F5A623;
+            margin-bottom: 0.875rem;
+        }
+        .worked-card.crm .lane-hat { color: rgba(255,255,255,0.4); }
+        .worked-card.signals .lane-hat { color: #00D4FF; }
+        .worked-card.icv .lane-hat { color: #FFD700; }
+        .worked-card p, .worked-card li {
+            color: rgba(255,255,255,0.7);
+            line-height: 1.7;
+            font-size: 0.9375rem;
+        }
+        .worked-card ul {
+            list-style: none;
+            margin-top: 0.5rem;
+        }
+        .worked-card ul li {
+            padding-left: 1.25rem;
+            position: relative;
+            margin: 0.4rem 0;
+        }
+        .worked-card ul li::before {
+            content: '·';
+            color: #F5A623;
+            position: absolute;
+            left: 0.4rem;
+            font-weight: 900;
+        }
+        .worked-verdict {
+            border-radius: 1.25rem;
+            padding: 2rem 2.25rem;
+            background: linear-gradient(135deg, rgba(245,166,35,0.12), rgba(255,215,0,0.06));
+            border: 1px solid rgba(245,166,35,0.3);
+            margin-top: 0.5rem;
+        }
+        .worked-verdict p {
+            font-size: 1.0625rem;
+            color: #fff;
+            line-height: 1.65;
+        }
+
+        /* ── Gateway Tier badges ─────────────────────────────── */
+        .gw-tier {
+            display: inline-flex; align-items: baseline; gap: 0.5rem;
+            padding: 0.625rem 1rem;
+            border-radius: 0.75rem;
+            font-size: 0.8125rem;
+            font-weight: 600;
+        }
+        .gw-tier .tn { font-weight: 800; }
+        .gw-tier.t1 { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.8); border: 1px solid rgba(255,255,255,0.1); }
+        .gw-tier.t2 { background: rgba(0,212,255,0.08); color: #7dd3fc; border: 1px solid rgba(0,212,255,0.25); }
+        .gw-tier.t3 { background: rgba(245,166,35,0.1); color: #FFD700; border: 1px solid rgba(245,166,35,0.35); }
+
+        /* ── CTA Button ──────────────────────────────────────── */
+        .btn-gold {
+            display: inline-flex; align-items: center; gap: 0.625rem;
+            padding: 1.0625rem 2.25rem;
+            background: linear-gradient(135deg, #F5A623, #FFD700);
+            color: #05081A;
+            font-weight: 700;
+            font-size: 0.9375rem;
+            border-radius: 9999px;
+            box-shadow: 0 0 32px rgba(245,166,35,0.35);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .btn-gold:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 10px 48px rgba(245,166,35,0.55); }
+
+        .btn-ghost {
+            display: inline-flex; align-items: center; gap: 0.625rem;
+            padding: 1rem 2rem;
+            background: rgba(255,255,255,0.04);
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.9375rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(255,255,255,0.18);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .btn-ghost:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(0,212,255,0.4);
+            color: #7dd3fc;
+        }
+
+        /* ── Scroll Bounce ───────────────────────────────────── */
+        @keyframes bounce-slow {
+            0%, 100% { transform: translateY(0); opacity: 0.7; }
+            50% { transform: translateY(10px); opacity: 0.25; }
+        }
+        .bounce-slow { animation: bounce-slow 2.2s ease-in-out infinite; }
+
+        /* ── Responsive ──────────────────────────────────────── */
+        @media (max-width: 1040px) {
+            .arch-pill-row { flex-wrap: wrap; }
+            .collapse-table { font-size: 0.8125rem; }
+            .collapse-table th,
+            .collapse-table td { padding: 0.875rem 1rem; }
+        }
+        @media (max-width: 640px) {
+            #site-nav { padding: 1rem 1.25rem; }
+            section { padding-left: 1.25rem !important; padding-right: 1.25rem !important; }
+            .collapse-table th:nth-child(2),
+            .collapse-table td:nth-child(2) { display: none; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.001ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.001ms !important;
             }
-          });
-        },
-        { threshold: 0.45 }
-      );
+            .rl, .fu { opacity: 1 !important; transform: none !important; }
+            #hero-canvas { display: none; }
+        }
+    </style>
+</head>
+<body>
 
-      if (problemSection) {
-        kpiObserver.observe(problemSection);
-      }
+<!-- Scroll Progress Bar -->
+<div id="progress-bar"></div>
 
-      const stages = Array.from(document.querySelectorAll("#flow .stage"));
-      let index = 0;
-      setInterval(() => {
-        stages.forEach((stage, i) => {
-          stage.classList.toggle("active", i === index);
+<!-- ═══════════ NAV ═══════════════════════════════════════════ -->
+<nav id="site-nav">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <div style="font-size:1.4rem;font-weight:900;letter-spacing:-0.04em;">
+            CERN<span style="color:#F5A623;">IAM</span>
+        </div>
+        <div class="flex items-center gap-6">
+            <div class="hidden md:flex gap-8 text-sm font-medium" style="color:rgba(255,255,255,0.45);">
+                <a href="#principle" class="hover:text-white transition-colors">Principle</a>
+                <a href="#metric" class="hover:text-white transition-colors">ICV</a>
+                <a href="#architecture" class="hover:text-white transition-colors">Architecture</a>
+                <a href="#numbers" class="hover:text-white transition-colors">Numbers</a>
+                <a href="#proof" class="hover:text-white transition-colors">Proof</a>
+            </div>
+            <a href="#contact"
+               style="padding:0.6rem 1.375rem;border-radius:9999px;font-size:0.8125rem;font-weight:600;
+                      background:rgba(245,166,35,0.12);color:#F5A623;
+                      border:1px solid rgba(245,166,35,0.3);transition:all 0.3s ease;"
+               onmouseover="this.style.background='rgba(245,166,35,0.22)'"
+               onmouseout="this.style.background='rgba(245,166,35,0.12)'">
+                Contact
+            </a>
+        </div>
+    </div>
+</nav>
+
+<!-- ═══════════ HERO ══════════════════════════════════════════ -->
+<section style="min-height:100vh;position:relative;overflow:hidden;display:flex;align-items:center;padding:8rem 2rem 4rem;">
+    <canvas id="hero-canvas"></canvas>
+
+    <!-- Ambient glow orbs -->
+    <div style="position:absolute;top:20%;left:10%;width:400px;height:400px;
+                background:radial-gradient(circle,rgba(245,166,35,0.08) 0%,transparent 70%);
+                border-radius:50%;pointer-events:none;z-index:1;"></div>
+    <div style="position:absolute;bottom:15%;right:8%;width:500px;height:500px;
+                background:radial-gradient(circle,rgba(0,212,255,0.07) 0%,transparent 70%);
+                border-radius:50%;pointer-events:none;z-index:1;"></div>
+
+    <div class="max-w-7xl mx-auto w-full relative" style="z-index:2;">
+        <div class="max-w-4xl">
+            <!-- Label -->
+            <div class="s-label rl rl-d1" style="margin-bottom:2rem;">
+                Project Woven · Cerniam Labs
+            </div>
+
+            <!-- Headline -->
+            <h1 style="font-size:clamp(3rem,8vw,6.5rem);font-weight:900;line-height:0.95;letter-spacing:-0.04em;margin-bottom:2.5rem;">
+                <span class="lw"><span class="rl rl-d2">THE RETAIL</span></span>
+                <span class="lw"><span class="rl rl-d3 gold-text">INTELLIGENCE</span></span>
+                <span class="lw"><span class="rl rl-d4">LAYER</span></span>
+            </h1>
+
+            <!-- Subhead -->
+            <p class="rl rl-d5"
+               style="font-size:clamp(1rem,2vw,1.35rem);color:rgba(255,255,255,0.65);font-weight:300;
+                      max-width:42rem;line-height:1.6;margin-bottom:3rem;">
+                Don't move the data to Intelligence.<br>
+                Move the <strong style="color:#fff;font-weight:600;">Intelligence to the data.</strong>
+            </p>
+
+            <!-- CTA -->
+            <div class="rl rl-d5" style="transition-delay:0.95s;display:flex;flex-wrap:wrap;gap:1rem;align-items:center;">
+                <a href="#principle" class="btn-gold">
+                    See the demo
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 5v14M5 12l7 7 7-7"/>
+                    </svg>
+                </a>
+                <a href="#contact" class="btn-ghost">
+                    Talk to us
+                </a>
+            </div>
+        </div>
+
+        <!-- Scroll hint -->
+        <div class="bounce-slow" style="position:absolute;bottom:-3rem;right:2rem;
+                    display:flex;flex-direction:column;align-items:center;gap:0.5rem;
+                    font-size:0.625rem;letter-spacing:0.2em;color:rgba(255,255,255,0.3);">
+            <span>SCROLL</span>
+            <div style="width:1px;height:2.5rem;background:linear-gradient(to bottom,rgba(245,166,35,0.5),transparent);"></div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════ THE PRINCIPLE ═════════════════════════════════ -->
+<section id="principle" style="padding:7rem 2rem;position:relative;">
+    <div class="max-w-7xl mx-auto">
+
+        <div class="fu" style="margin-bottom:4rem;max-width:54rem;">
+            <div class="s-label">The Principle</div>
+            <h2 style="font-size:clamp(2rem,5vw,3.5rem);font-weight:900;line-height:1.05;letter-spacing:-0.03em;">
+                MOVE INTELLIGENCE<br>
+                TO THE <span class="gold-text">DATA.</span>
+            </h2>
+            <p class="fu fu-d1" style="font-size:1.125rem;color:rgba(255,255,255,0.6);line-height:1.75;margin-top:2rem;max-width:46rem;">
+                In 2003, Jim Gray — Turing-laureate, the database godfather, the author of the
+                transaction — wrote a quiet paper called <em>Distributed Computing Economics.</em>
+                One observation reshaped how anyone serious thinks about systems at scale:
+                <strong style="color:#fff;font-weight:600;"> data has gravity. Compute should orbit it.</strong>
+                Every retail stack since has been building in the opposite direction. Cerniam inverts the orbit.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="contrast-col bad fu fu-d1">
+                <div class="hat">The default · everywhere else</div>
+                <h3>Move data to compute.</h3>
+                <p>
+                    Snowflake, Redshift, BigQuery, Databricks. Connectors, ETL, schemas,
+                    orchestration. Every Module a retailer adds is one more pipeline to maintain —
+                    another copy of the customer, another reconciliation, another lag.
+                </p>
+                <div class="flow-line">
+                    Source &nbsp;→&nbsp; <strong>schlep</strong> &nbsp;→&nbsp; lake &nbsp;→&nbsp; <strong>schlep</strong> &nbsp;→&nbsp; ML &nbsp;→&nbsp; decision
+                    <div style="margin-top:0.4rem;opacity:0.65;">staleness baked in at every arrow.</div>
+                </div>
+            </div>
+
+            <div class="contrast-col good fu fu-d2">
+                <div class="hat">The Cerniam way</div>
+                <h3>Move intelligence to data.</h3>
+                <p>
+                    Source systems stay where they are. Cerniam taps them in flight, composes the
+                    answer in a live operational graph, and dispatches decisions to whichever
+                    Module needs to act. Nothing gets copied. Nothing gets staged.
+                </p>
+                <div class="flow-line">
+                    Source &nbsp;↔&nbsp; tap &nbsp;↔&nbsp; <strong>OKG</strong> &nbsp;↔&nbsp; decision
+                    <div style="margin-top:0.4rem;opacity:0.85;">no movement. no staleness. no pipeline tax.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════ THE METRIC · ICV ══════════════════════════════ -->
+<section id="metric" style="padding:7rem 2rem;background:rgba(13,19,64,0.3);position:relative;overflow:hidden;">
+    <div style="position:absolute;top:-10%;left:50%;transform:translateX(-50%);width:800px;height:600px;
+                background:radial-gradient(circle,rgba(245,166,35,0.05) 0%,transparent 65%);
+                pointer-events:none;"></div>
+
+    <div class="max-w-7xl mx-auto relative">
+
+        <div class="fu" style="margin-bottom:4rem;max-width:56rem;">
+            <div class="s-label">The Metric · ICV</div>
+            <h2 style="font-size:clamp(2rem,5vw,3.5rem);font-weight:900;line-height:1.05;letter-spacing:-0.03em;">
+                INSTANTANEOUS<br>
+                <span class="gold-text">CUSTOMER VALUE.</span>
+            </h2>
+            <p class="fu fu-d1" style="font-size:1.125rem;color:rgba(255,255,255,0.6);line-height:1.75;margin-top:2rem;max-width:48rem;">
+                The value of <em>this</em> customer in <em>this</em> moment, composed in real time
+                across every domain that touches them. Where CLV looks backward at a lifetime,
+                ICV looks at <strong style="color:#fff;font-weight:600;">right now</strong> — and
+                most stacks can't see it because they're built on stale data.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+            <div class="tier-card t1 fu fu-d1">
+                <div class="tier-num">Tier 1 · Obvious</div>
+                <h3>What every CRM sees.</h3>
+                <p>
+                    Account exists, customer logged in, last-purchase date, loyalty tier, lifetime
+                    spend. The signal everyone has and everyone uses.
+                </p>
+                <span class="tier-where">Lives in · CRM, warehouse, history</span>
+            </div>
+
+            <div class="tier-card t2 fu fu-d2">
+                <div class="tier-num">Tier 2 · Predictive</div>
+                <h3>Light on data.</h3>
+                <p>
+                    Propensity-to-purchase, churn risk, segment membership, predicted CLV. ML-derived
+                    but trained on historical batches — good direction, stale specifics.
+                </p>
+                <span class="tier-where">Lives in · ML pipelines, batch features</span>
+            </div>
+
+            <div class="tier-card t3 fu fu-d3">
+                <div class="tier-num">Tier 3 · Cerniam only</div>
+                <h3>Latent.</h3>
+                <p>
+                    Session intent, cross-domain context, life-stage signals, environmental cues,
+                    intent-from-elsewhere. Visible only to architectures that compose in real time.
+                    <strong style="color:#FFD700;">This is the alpha.</strong>
+                </p>
+                <span class="tier-where">Lives in · the OKG · composed live</span>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════ THE ARCHITECTURE ══════════════════════════════ -->
+<section id="architecture" style="padding:7rem 2rem;position:relative;">
+    <div class="max-w-7xl mx-auto">
+
+        <div class="fu text-center" style="margin-bottom:4rem;max-width:46rem;margin-left:auto;margin-right:auto;">
+            <div class="s-label" style="justify-content:center;">The Architecture</div>
+            <h2 style="font-size:clamp(2rem,5vw,3.25rem);font-weight:900;line-height:1.1;letter-spacing:-0.03em;">
+                ONE CHASSIS.<br>
+                EVERY MODULE. <span class="ice-text">EVERY PLUG-IN.</span>
+            </h2>
+            <p style="font-size:1.0625rem;color:rgba(255,255,255,0.6);line-height:1.75;margin-top:1.5rem;">
+                Modules are the systems retailers already run. The chassis carries Identity,
+                Memory, Brain, Reasoner, Event Bus, and Audit — six named services that make every
+                Module open to every other. Plug-Ins ride on the chassis and inherit the context for free.
+            </p>
+        </div>
+
+        <!-- MODULES -->
+        <div class="arch-row modules fu fu-d1">
+            <div class="row-label">Modules · the systems already in place</div>
+            <div class="arch-pill-row" style="display:flex;flex-wrap:wrap;gap:0.625rem;">
+                <span class="pill gold">Manhattan OMS</span>
+                <span class="pill gold">PSP</span>
+                <span class="pill gold">Manhattan POS</span>
+                <span class="pill gold">Bloomreach</span>
+                <span class="pill dim">Engagement · TBD</span>
+                <span class="pill dim">Returns · TBD</span>
+            </div>
+        </div>
+
+        <div class="arch-arrow fu fu-d2">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 5v14M5 12l7 7 7-7"/>
+            </svg>
+        </div>
+
+        <!-- CHASSIS -->
+        <div class="arch-row chassis fu fu-d2">
+            <div class="row-label">Cerniam Chassis · Project Woven</div>
+            <div class="arch-pill-row" style="display:flex;flex-wrap:wrap;gap:0.625rem;">
+                <span class="pill ice">Identity</span>
+                <span class="pill ice">Memory</span>
+                <span class="pill ice">Brain · OKG</span>
+                <span class="pill ice">Reasoner</span>
+                <span class="pill ice">Event Bus</span>
+                <span class="pill ice">Audit</span>
+            </div>
+            <p style="margin-top:1.25rem;font-size:0.875rem;color:rgba(255,255,255,0.5);line-height:1.6;">
+                Six named services. One operational knowledge graph. Every Module open to every other.
+            </p>
+        </div>
+
+        <div class="arch-arrow fu fu-d3">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 5v14M5 12l7 7 7-7"/>
+            </svg>
+        </div>
+
+        <!-- PLUG-INS -->
+        <div class="arch-row plugins fu fu-d3">
+            <div class="row-label">Plug-Ins · running on the chassis</div>
+            <div class="arch-pill-row" style="display:flex;flex-wrap:wrap;gap:0.625rem;">
+                <span class="pill">Decline Recovery</span>
+                <span class="pill">Chargeback</span>
+                <span class="pill">Save-the-Sale</span>
+                <span class="pill">Repricing</span>
+                <span class="pill">Fraud</span>
+                <span class="pill">Offer Intelligence</span>
+                <span class="pill">Identity</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════ THE COLLAPSE ══════════════════════════════════ -->
+<section id="collapse" style="padding:7rem 2rem;background:rgba(13,19,64,0.3);">
+    <div class="max-w-7xl mx-auto">
+
+        <div class="fu" style="margin-bottom:3rem;max-width:50rem;">
+            <div class="s-label">The Collapse</div>
+            <h2 style="font-size:clamp(2rem,5vw,3.25rem);font-weight:900;line-height:1.1;letter-spacing:-0.03em;">
+                30+ POINT SAAS<br>
+                COLLAPSE TO <span class="gold-text">SEVEN PLUG-INS.</span>
+            </h2>
+            <p class="fu fu-d1" style="font-size:1.0625rem;color:rgba(255,255,255,0.6);line-height:1.75;margin-top:1.5rem;">
+                Every SaaS in the swarm tastes great in the demo. Every SaaS drags an integration tax
+                behind it. Cerniam keeps the capability and collapses the bill.
+            </p>
+        </div>
+
+        <div class="fu fu-d2" style="overflow-x:auto;">
+            <table class="collapse-table">
+                <thead>
+                    <tr>
+                        <th style="width:22%;">Capability</th>
+                        <th style="width:48%;">Typical SaaS swarm</th>
+                        <th style="width:30%;">Cerniam Plug-In</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="cap">Decline Recovery</td>
+                        <td class="swarm">Forter · Riskified · PSP add-ons · custom retry stacks</td>
+                        <td class="pi">Decline Recovery</td>
+                    </tr>
+                    <tr>
+                        <td class="cap">Chargeback</td>
+                        <td class="swarm">Verifi · Ethoca · Chargebacks911 · Justt</td>
+                        <td class="pi">Chargeback</td>
+                    </tr>
+                    <tr>
+                        <td class="cap">Save-the-Sale</td>
+                        <td class="swarm">Bluecore · Wunderkind · Klaviyo flows · Listrak</td>
+                        <td class="pi">Save-the-Sale</td>
+                    </tr>
+                    <tr>
+                        <td class="cap">Repricing</td>
+                        <td class="swarm">Aura · RepricerExpress · PROS · custom rules engines</td>
+                        <td class="pi">Repricing</td>
+                    </tr>
+                    <tr>
+                        <td class="cap">Fraud</td>
+                        <td class="swarm">Signifyd · Sift · Forter · Kount · Riskified</td>
+                        <td class="pi">Fraud</td>
+                    </tr>
+                    <tr>
+                        <td class="cap">Offer Intelligence</td>
+                        <td class="swarm">Bloomreach · SFMC · Adobe Target · Dynamic Yield</td>
+                        <td class="pi">Offer Intelligence</td>
+                    </tr>
+                    <tr>
+                        <td class="cap">Identity (CDP)</td>
+                        <td class="swarm">Segment · mParticle · Tealium · Adobe RTCDP · Treasure Data</td>
+                        <td class="pi">Identity</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════ THE NUMBERS ═══════════════════════════════════ -->
+<section id="numbers" style="padding:7rem 2rem;">
+    <div class="max-w-7xl mx-auto">
+
+        <div class="fu text-center" style="margin-bottom:4rem;max-width:42rem;margin-left:auto;margin-right:auto;">
+            <div class="s-label" style="justify-content:center;">The Numbers</div>
+            <h2 style="font-size:clamp(2rem,5vw,3.25rem);font-weight:900;line-height:1.1;letter-spacing:-0.03em;">
+                THE INTEGRATION TAX,<br>
+                <span class="gold-text">ELIMINATED.</span>
+            </h2>
+            <p style="font-size:1rem;color:rgba(255,255,255,0.55);line-height:1.7;margin-top:1.25rem;">
+                Mid-market $2B retailer · 30 SaaS contracts · steady-state.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+            <div class="num-tile fu fu-d1">
+                <div class="big">~$1.3M / yr</div>
+                <div class="label">Integration tax eliminated</div>
+                <div class="sub">$2B retailer · 30 SaaSs · steady-state</div>
+            </div>
+            <div class="num-tile fu fu-d2">
+                <div class="big">25–40 → 1</div>
+                <div class="label">SaaS contracts collapsed</div>
+                <div class="sub">One annual relationship · one chassis</div>
+            </div>
+            <div class="num-tile fu fu-d3">
+                <div class="big">0</div>
+                <div class="label">Pipelines maintained</div>
+                <div class="sub">Cerniam taps in place · no schlep</div>
+            </div>
+            <div class="num-tile fu fu-d4">
+                <div class="big">~94%</div>
+                <div class="label">5-year TCO reduction</div>
+                <div class="sub">$6.5M → ~$400k integration line</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════ THE PROOF · WORKED EXAMPLE ════════════════════ -->
+<section id="proof" style="padding:7rem 2rem;background:rgba(13,19,64,0.3);position:relative;overflow:hidden;">
+    <div style="position:absolute;top:10%;right:-15%;width:700px;height:700px;
+                background:radial-gradient(circle,rgba(245,166,35,0.06) 0%,transparent 65%);
+                pointer-events:none;"></div>
+
+    <div class="max-w-7xl mx-auto relative">
+
+        <div class="fu" style="margin-bottom:3rem;max-width:54rem;">
+            <div class="s-label">The Proof</div>
+            <h2 style="font-size:clamp(2rem,5vw,3.25rem);font-weight:900;line-height:1.05;letter-spacing:-0.03em;">
+                A NEW CUSTOMER<br>
+                AT HOMEDEPOT.COM.<br>
+                <span style="color:rgba(255,255,255,0.4);">CRM HAS NOTHING.</span>
+            </h2>
+            <p class="fu fu-d1" style="font-size:1.0625rem;color:rgba(255,255,255,0.6);line-height:1.75;margin-top:1.75rem;">
+                No account. No purchase history. Mid-week visit. CRM looks at this session
+                and sees a low-confidence anonymous browser. Cerniam looks and sees a customer
+                with an <strong style="color:#FFD700;">ICV through the roof</strong> — and a 50% chance
+                of being lost to Lowe's if nobody acts.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+            <div>
+                <div class="worked-card crm fu fu-d1">
+                    <div class="lane-hat">CRM view</div>
+                    <p>
+                        Anonymous browser. ZIP geolocates to Phoenix suburb. Third visit this week.
+                        Cart: $200 of plywood, lumber, insulation. <strong style="color:rgba(255,255,255,0.85);">Baseline ICV.</strong>
+                        Treated like every anonymous browser. Generic experience. The session probably
+                        ends with a small purchase or no purchase.
+                    </p>
+                </div>
+
+                <div class="worked-card signals fu fu-d2">
+                    <div class="lane-hat">Latent signals · composed live across the OKG</div>
+                    <ul>
+                        <li><strong style="color:#fff;">USPS COA</strong> — recent change of address (60 days)</li>
+                        <li><strong style="color:#fff;">Mortgage origination</strong> — first-time buyer, 1962 ranch home</li>
+                        <li><strong style="color:#fff;">Renovation permit pulled</strong> — minor remodel filed last week</li>
+                        <li><strong style="color:#fff;">Recent searches</strong> — "subfloor repair" · "drywall mud" · "circular saw blades"</li>
+                        <li><strong style="color:#fff;">Cart pattern</strong> — framing-grade lumber, OSB sheathing — structural, not finish</li>
+                        <li><strong style="color:#fff;">Comparison-shop signal</strong> — opened Lowes.com twice this session</li>
+                        <li><strong style="color:#fff;">Behavioral</strong> — daytime visits = freelance, contractor, or owner-on-a-mission</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div>
+                <div class="worked-card icv fu fu-d2">
+                    <div class="lane-hat">ICV view</div>
+                    <p>
+                        Cerniam computes: probable 18-month basket of
+                        <strong style="color:#FFD700;">$8,000–$15,000</strong> across 4–6 visits as the
+                        renovation proceeds. <strong style="color:#FFD700;">Lowe's risk: ~50%</strong>
+                        if no relationship is captured this session.
+                    </p>
+                    <p style="margin-top:0.875rem;color:#fff;">
+                        This is not a $200 customer. This is an $8K customer in disguise.
+                    </p>
+                </div>
+
+                <div class="worked-card fu fu-d3">
+                    <div class="lane-hat" style="color:#00D4FF;">Decision composed · plug-ins act in concert</div>
+                    <ul>
+                        <li><strong style="color:#fff;">Identity</strong> — surface a Pro Account signup with one-click capture</li>
+                        <li><strong style="color:#fff;">Save-the-Sale</strong> — offer a free contractor consultation + project plan</li>
+                        <li><strong style="color:#fff;">Offer Intelligence</strong> — bundle the cart with a Pro Xtra welcome credit</li>
+                        <li><strong style="color:#fff;">Cross-channel</strong> — lock pickup at the nearest store, 30-min ready</li>
+                        <li><strong style="color:#fff;">Loyalty</strong> — project-based credit toward the next visit</li>
+                    </ul>
+                </div>
+
+                <div class="worked-verdict fu fu-d4">
+                    <p>
+                        Without ICV: a $200 anonymous transaction, then silence.<br>
+                        With ICV: a <strong style="color:#FFD700;">$10,000 customer relationship</strong>
+                        captured in the first 30 seconds — before they tab back to Lowe's.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Decline Recovery callout -->
+        <div class="fu fu-d4 glass" style="margin-top:3rem;border-radius:1.5rem;padding:2.25rem 2.5rem;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1.5rem;">
+            <div style="max-width:42rem;">
+                <div style="font-size:0.6875rem;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:#F5A623;margin-bottom:0.625rem;">
+                    Same architecture · different plug-in
+                </div>
+                <h3 style="font-size:1.5rem;font-weight:800;letter-spacing:-0.02em;line-height:1.3;margin-bottom:0.625rem;">
+                    A $2B retailer at a 5% decline rate. PSP recovers $20M.
+                    <span class="gold-text">Cerniam recovers $30M–$40M.</span>
+                </h3>
+                <p style="color:rgba(255,255,255,0.55);line-height:1.65;font-size:0.9375rem;">
+                    PSP sees the auth seam. Cerniam composes issuer mood, session urgency, paycheck-cycle
+                    detection, and cross-channel signal — recovering $11.5M–$18.5M of incremental GMV
+                    every year, after PSP does its best.
+                </p>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:0.5rem;align-items:flex-end;">
+                <div style="font-size:2.5rem;font-weight:900;color:#FFD700;line-height:1;letter-spacing:-0.03em;">
+                    +$11.5–18.5M
+                </div>
+                <div style="font-size:0.75rem;color:rgba(255,255,255,0.45);letter-spacing:0.05em;">
+                    incremental Cerniam value · per year
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════ THE GATEWAY ═══════════════════════════════════ -->
+<section id="gateway" style="padding:7rem 2rem;">
+    <div class="max-w-7xl mx-auto">
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+            <div class="fu">
+                <div class="s-label ice">Woven Gateway · 3DS2</div>
+                <h2 style="font-size:clamp(1.875rem,4.5vw,3rem);font-weight:900;line-height:1.1;letter-spacing:-0.03em;">
+                    THE GATEWAY INSPECTS THE BRAIN.<br>
+                    THE PACKET LEAVES WITH<br>
+                    <span class="ice-text">ALL THREE TIERS.</span>
+                </h2>
+                <p style="font-size:1.0625rem;color:rgba(255,255,255,0.6);line-height:1.75;margin-top:1.5rem;">
+                    Every online card payment travels through 3DS2. Most merchants ship a thin packet —
+                    cardholder, device, transaction. Cerniam's Gateway inspects the Brain at the moment
+                    of authorization and composes a packet enriched with all three tiers of signal.
+                </p>
+                <p style="font-size:0.9375rem;color:rgba(255,255,255,0.45);line-height:1.7;margin-top:1rem;">
+                    Issuer authenticates with full context. Friction drops. Approvals rise.
+                </p>
+            </div>
+
+            <div class="glass fu fu-d2" style="border-radius:1.5rem;padding:2.5rem;">
+                <div style="display:flex;flex-direction:column;gap:0.875rem;margin-bottom:2rem;">
+                    <div class="gw-tier t1">
+                        <span class="tn">Tier 1 · Obvious</span>
+                        <span style="opacity:0.7;">7 fields</span>
+                    </div>
+                    <div class="gw-tier t2">
+                        <span class="tn">Tier 2 · Predictive</span>
+                        <span style="opacity:0.7;">5 fields</span>
+                    </div>
+                    <div class="gw-tier t3">
+                        <span class="tn">Tier 3 · Latent</span>
+                        <span style="opacity:0.7;">8 fields</span>
+                    </div>
+                </div>
+
+                <div style="display:flex;justify-content:space-between;align-items:flex-end;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.07);gap:1rem;flex-wrap:wrap;">
+                    <div>
+                        <div style="font-size:2.5rem;font-weight:900;color:#00D4FF;line-height:1;letter-spacing:-0.03em;">+18%</div>
+                        <div style="font-size:0.75rem;color:rgba(255,255,255,0.5);margin-top:0.375rem;letter-spacing:0.05em;">frictionless approval lift</div>
+                    </div>
+                    <div>
+                        <div style="font-size:2.5rem;font-weight:900;color:#FFD700;line-height:1;letter-spacing:-0.03em;">~$36M / yr</div>
+                        <div style="font-size:0.75rem;color:rgba(255,255,255,0.5);margin-top:0.375rem;letter-spacing:0.05em;">recovered GMV</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════ ABOUT / CONTACT ══════════════════════════════ -->
+<section id="contact" style="padding:7rem 2rem;border-top:1px solid rgba(255,255,255,0.05);background:rgba(13,19,64,0.3);">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
+
+        <!-- Left: About -->
+        <div class="fu">
+            <div class="s-label">Who We Are</div>
+            <h2 style="font-size:clamp(1.875rem,4vw,3rem);font-weight:900;line-height:1.1;
+                        letter-spacing:-0.03em;margin-bottom:2rem;">
+                PROJECT WOVEN.<br>
+                <span class="gold-text">CERNIAM LABS.</span>
+            </h2>
+            <p style="font-size:1rem;color:rgba(255,255,255,0.6);line-height:1.8;margin-bottom:1.5rem;">
+                Cerniam is an applied AI laboratory building the retail intelligence layer.
+                Project Woven is the internal name for the connectivity layer being built by Cerniam Labs
+                — one chassis with six named services, every Module open to every other, and a
+                growing library of Plug-Ins that inherit the context for free.
+            </p>
+            <p style="font-size:1rem;color:rgba(255,255,255,0.6);line-height:1.8;margin-bottom:2.5rem;">
+                We're not pitching a vision. We're moving intelligence to the data — across the
+                stack retailers already run — and pricing the integration tax that nobody else
+                wants you to look at.
+            </p>
+            <p style="font-size:0.8125rem;color:rgba(255,255,255,0.35);letter-spacing:0.05em;">
+                Built in collaboration with <strong style="color:#F5A623;font-weight:700;">Lab 36.</strong>
+            </p>
+            <div style="display:flex;gap:0.75rem;align-items:center;margin-top:2rem;">
+                <div style="width:3.5rem;height:2px;background:#F5A623;border-radius:2px;"></div>
+                <div style="width:2rem;height:2px;background:#00D4FF;border-radius:2px;"></div>
+                <div style="width:1rem;height:2px;background:rgba(255,255,255,0.2);border-radius:2px;"></div>
+            </div>
+        </div>
+
+        <!-- Right: Contact -->
+        <div class="glass fu fu-d2" style="border-radius:1.5rem;padding:2.5rem;">
+            <h3 style="font-size:1.5rem;font-weight:700;margin-bottom:0.5rem;">Let's talk.</h3>
+            <p style="font-size:0.875rem;color:rgba(255,255,255,0.4);margin-bottom:2rem;">
+                If you're running a retail stack and tired of paying the integration tax —
+                or if you want to see ICV in motion — we'd love to walk you through it.
+            </p>
+
+            <div style="margin-bottom:2rem;padding:1.5rem;border-radius:1rem;background:rgba(245,166,35,0.06);border:1px solid rgba(245,166,35,0.2);">
+                <div style="font-size:0.6875rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#F5A623;margin-bottom:0.5rem;">
+                    Direct
+                </div>
+                <!-- TODO: SkWatch — replace with real contact email -->
+                <a href="mailto:hello@cerniam.com" style="font-size:1.125rem;font-weight:600;color:#FFD700;text-decoration:none;">
+                    hello@cerniam.com
+                </a>
+            </div>
+
+            <form onsubmit="event.preventDefault();this.reset();" style="display:flex;flex-direction:column;gap:1rem;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                    <div>
+                        <label style="display:block;font-size:0.75rem;font-weight:600;color:rgba(255,255,255,0.4);
+                                       letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.5rem;">Name</label>
+                        <input type="text" name="name"
+                               style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);
+                                      border-radius:0.75rem;padding:0.875rem 1.125rem;color:#fff;font-size:0.9375rem;
+                                      outline:none;font-family:'Inter',sans-serif;"
+                               placeholder="Your name">
+                    </div>
+                    <div>
+                        <label style="display:block;font-size:0.75rem;font-weight:600;color:rgba(255,255,255,0.4);
+                                       letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.5rem;">Company</label>
+                        <input type="text" name="company"
+                               style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);
+                                      border-radius:0.75rem;padding:0.875rem 1.125rem;color:#fff;font-size:0.9375rem;
+                                      outline:none;font-family:'Inter',sans-serif;"
+                               placeholder="Your company">
+                    </div>
+                </div>
+                <div>
+                    <label style="display:block;font-size:0.75rem;font-weight:600;color:rgba(255,255,255,0.4);
+                                   letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.5rem;">Email</label>
+                    <input type="email" name="email"
+                           style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);
+                                  border-radius:0.75rem;padding:0.875rem 1.125rem;color:#fff;font-size:0.9375rem;
+                                  outline:none;font-family:'Inter',sans-serif;"
+                           placeholder="you@company.com">
+                </div>
+                <div>
+                    <label style="display:block;font-size:0.75rem;font-weight:600;color:rgba(255,255,255,0.4);
+                                   letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.5rem;">Message</label>
+                    <textarea name="message"
+                              style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);
+                                     border-radius:0.75rem;padding:0.875rem 1.125rem;color:#fff;font-size:0.9375rem;
+                                     outline:none;font-family:'Inter',sans-serif;height:7rem;resize:vertical;"
+                              placeholder="What part of the stack hurts the most right now?"></textarea>
+                </div>
+                <button type="submit" class="btn-gold" style="width:100%;justify-content:center;margin-top:0.5rem;border:none;cursor:pointer;font-family:'Inter',sans-serif;">
+                    Request a walkthrough
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </button>
+            </form>
+        </div>
+
+    </div>
+</section>
+
+<!-- ═══════════ FOOTER ════════════════════════════════════════ -->
+<footer style="padding:2.5rem 2rem;border-top:1px solid rgba(255,255,255,0.05);
+               display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
+    <div style="font-size:1rem;font-weight:900;letter-spacing:-0.03em;">
+        CERN<span style="color:#F5A623;">IAM</span>
+    </div>
+    <p style="font-size:0.8125rem;color:rgba(255,255,255,0.25);">
+        &copy; 2026 Cerniam Labs · Project Woven. All rights reserved.
+    </p>
+    <div style="display:flex;gap:1.5rem;align-items:center;">
+        <span style="font-size:0.75rem;color:rgba(255,255,255,0.3);letter-spacing:0.1em;">Built with Lab 36</span>
+        <div style="width:1.5rem;height:1px;background:#F5A623;"></div>
+        <div style="width:1rem;height:1px;background:#00D4FF;"></div>
+    </div>
+</footer>
+
+<!-- ═══════════ SCRIPTS ═══════════════════════════════════════ -->
+<script>
+// Respect reduced-motion: skip canvas + scroll reveals entirely
+const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// ── Scroll Progress ────────────────────────────────────────
+const progressBar = document.getElementById('progress-bar');
+const nav = document.getElementById('site-nav');
+
+window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    progressBar.style.width = pct + '%';
+    nav.classList.toggle('scrolled', scrollTop > 60);
+}, { passive: true });
+
+// ── Hero Canvas Particles (interconnected nodes) ──────────
+if (!REDUCED_MOTION) {
+    (function() {
+        const canvas = document.getElementById('hero-canvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+
+        let W, H, particles = [];
+        const N = window.innerWidth < 768 ? 50 : 90;
+        const MAX_DIST = 130;
+
+        function resize() {
+            W = canvas.width  = canvas.offsetWidth;
+            H = canvas.height = canvas.offsetHeight;
+        }
+
+        class Dot {
+            constructor() { this.reset(true); }
+            reset(rand) {
+                this.x  = rand ? Math.random() * W : (Math.random() < 0.5 ? 0 : W);
+                this.y  = rand ? Math.random() * H : Math.random() * H;
+                this.vx = (Math.random() - 0.5) * 0.45;
+                this.vy = (Math.random() - 0.5) * 0.45;
+                this.r  = Math.random() * 1.6 + 0.6;
+                this.gold = Math.random() > 0.65;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < -10 || this.x > W + 10 || this.y < -10 || this.y > H + 10) {
+                    this.reset(false);
+                }
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+                ctx.fillStyle = this.gold ? 'rgba(245,166,35,0.7)' : 'rgba(0,212,255,0.55)';
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            resize();
+            particles = Array.from({ length: N }, () => new Dot());
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, W, H);
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < MAX_DIST) {
+                        const a = (1 - dist / MAX_DIST) * 0.22;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(245,166,35,${a})`;
+                        ctx.lineWidth = 0.8;
+                        ctx.stroke();
+                    }
+                }
+            }
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(draw);
+        }
+
+        window.addEventListener('resize', () => {
+            resize();
+            particles.forEach(p => {
+                if (p.x > W) p.x = W * Math.random();
+                if (p.y > H) p.y = H * Math.random();
+            });
         });
-        index = (index + 1) % stages.length;
-      }, 1500);
 
-      const form = document.querySelector("form");
-      if (form) {
-        form.addEventListener("submit", function (event) {
-          event.preventDefault();
-          form.reset();
-        });
-      }
+        init();
+        draw();
     })();
-  </script>
+}
+
+// ── Hero Headline Reveal ───────────────────────────────────
+window.addEventListener('load', () => {
+    document.querySelectorAll('.rl').forEach(el => {
+        setTimeout(() => el.classList.add('up'), 100);
+    });
+});
+
+// ── Scroll Reveal (IntersectionObserver) ──────────────────
+if (!REDUCED_MOTION) {
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('vis');
+            } else if (entry.boundingClientRect.top > 0) {
+                entry.target.classList.remove('vis');
+            }
+        });
+    }, { threshold: 0.18, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.fu').forEach(el => io.observe(el));
+} else {
+    document.querySelectorAll('.fu').forEach(el => el.classList.add('vis'));
+}
+
+// Smooth-scroll without history pollution
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: REDUCED_MOTION ? 'auto' : 'smooth' });
+            history.replaceState(null, '', a.getAttribute('href'));
+        }
+    });
+});
+</script>
+
 </body>
 </html>
